@@ -1,10 +1,11 @@
-
 Phi 3.5 tests
+
 - size vs toks/sec
 - toks/sec vs thinking time
 - acc vs thinking time
 
 Plan:
+
 - Finetune for problem formatting & syntax understanding
 
 - Generate a few solutions and then treat these partial solutions as the state for gflownets
@@ -13,16 +14,17 @@ Plan:
 - Use pivotal tokens to construct a graph???
 
 ### Important ideas / methods to try:
+
 - KTO
 - DPO w/ Pivotal tokens
 - Figure out how to create state to do gflownets
-    - define a quantum "step" of a question using datasets of solutions? Use these as the "step" vectors??
-        - To validate, find similar hidden state "directions" or activations over several model solutions and see
-            if the outputs are also similar in direction. See if I can cluster these "directions" and get general 
-            steps for math problem solving.
-        - A prerequisite here is being able to effectively and efficiently extract & cluster "activations" or "embeddings"
-            or whatever signal we're looking for from all these LLMs
-    - If I can do this, then we're in a good spot
+  - define a quantum "step" of a question using datasets of solutions? Use these as the "step" vectors??
+    - To validate, find similar hidden state "directions" or activations over several model solutions and see
+      if the outputs are also similar in direction. See if I can cluster these "directions" and get general
+      steps for math problem solving.
+    - A prerequisite here is being able to effectively and efficiently extract & cluster "activations" or "embeddings"
+      or whatever signal we're looking for from all these LLMs
+  - If I can do this, then we're in a good spot
 - Model conversations
 - Compare performance of different compositions of models
 
@@ -30,33 +32,21 @@ Plan:
 
 ### Training:
 
-Base Models:
-    - Deepseek distilled
-    - Distill your own (?)
-Algos:
-    - KTO
-        - Good / Bad formatting
-    - DPO
-        - Pivotal tokens strategy of Phi 4
-    - SFT
-        - Numina TIR dataset
+grpo is generalized pivotal token search.
+
+Base Models: - Deepseek distilled - Distill your own (?)
+Algos: - KTO - Good / Bad formatting - DPO - Pivotal tokens strategy of Phi 4 - SFT - Numina TIR dataset
 
 Data Generation:
-* Study up on prompting methods
-    - Deepseek v3
-    - Deepseek R1
-        - Prompt? How to evaluate prompt effectiveness?
 
-Validation:
-    - Curate a set of AIME-level math questions
-    - Switch numbers around perhaps?
-    - Create my own of varying difficulty olympiad-level questions
+- Study up on prompting methods
+  - Deepseek v3
+  - Deepseek R1
+    - Prompt? How to evaluate prompt effectiveness?
 
-Inference:
-    - Hyperparameters
-        - Model mixtures
-        - % splits between models
-        - *** model conversations??
+Validation: - Curate a set of AIME-level math questions - Switch numbers around perhaps? - Create my own of varying difficulty olympiad-level questions
+
+Inference: - Hyperparameters - Model mixtures - % splits between models - \*\*\* model conversations??
 
 Something I need to keep in mind is to set this project upon manageable abstract footing. I don't want to end up with a situation where the code is difficult to work with and slows me down. What do I see as the usable modules of this?
 
@@ -83,5 +73,5 @@ Prompt:
 Pivotal token method:
 
 for text in question_texts:
-    dataset = [Model(text)[:K] + answer_prompt for K in len(text)]
-    Model.generate(dataset, stop after boxed or max len) -> [answer or null for K in len(text)]
+dataset = [Model(text)[:K] + answer_prompt for K in len(text)]
+Model.generate(dataset, stop after boxed or max len) -> [answer or null for K in len(text)]
