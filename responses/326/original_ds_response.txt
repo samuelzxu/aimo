@@ -1,0 +1,516 @@
+Okay, so I need to find the minimum and maximum values of the expression \((x_{1} + 3x_{2} + 5x_{3})(x_{1} + \frac{x_{2}}{3} + \frac{x_{3}}{5})\) given that \(x_1 + x_2 + x_3 = 1\) and all \(x_i\) are non-negative. Hmm, this seems like an optimization problem with a constraint. Maybe I can use Lagrange multipliers or some inequality like Cauchy-Schwarz? Let me think step by step.
+
+First, let's understand the expression. It's the product of two linear expressions. Let me denote the first term as \(A = x_1 + 3x_2 + 5x_3\) and the second term as \(B = x_1 + \frac{x_2}{3} + \frac{x_3}{5}\). So we need to find the minimum and maximum of \(A \times B\).
+
+Since we're dealing with non-negative variables summing up to 1, maybe symmetry can't be used here because the coefficients are different. Alternatively, expanding the product might help.
+
+Expanding the product:
+
+\(AB = (x_1 + 3x_2 + 5x_3)(x_1 + \frac{x_2}{3} + \frac{x_3}{5})\)
+
+Multiply each term in the first parentheses by each term in the second.
+
+First, \(x_1 \times x_1 = x_1^2\)
+
+\(x_1 \times \frac{x_2}{3} = \frac{x_1 x_2}{3}\)
+
+\(x_1 \times \frac{x_3}{5} = \frac{x_1 x_3}{5}\)
+
+Then, \(3x_2 \times x_1 = 3x_1 x_2\)
+
+\(3x_2 \times \frac{x_2}{3} = x_2^2\)
+
+\(3x_2 \times \frac{x_3}{5} = \frac{3x_2 x_3}{5}\)
+
+Next, \(5x_3 \times x_1 =5x_1 x_3\)
+
+\(5x_3 \times \frac{x_2}{3} = \frac{5x_2 x_3}{3}\)
+
+\(5x_3 \times \frac{x_3}{5} = x_3^2\)
+
+Now, let's collect the like terms:
+
+\(AB = x_1^2 + x_2^2 + x_3^2 + \left(\frac{x_1 x_2}{3} + 3x_1 x_2\right) + \left(\frac{x_1 x_3}{5} + 5x_1 x_3\right) + \left(\frac{3x_2 x_3}{5} + \frac{5x_2 x_3}{3}\right)\)
+
+Simplify each pair:
+
+For \(x_1 x_2\): \(\frac{1}{3} + 3 = \frac{1}{3} + \frac{9}{3} = \frac{10}{3}\), so term is \(\frac{10}{3} x_1 x_2\)
+
+For \(x_1 x_3\): \(\frac{1}{5} + 5 = \frac{1}{5} + \frac{25}{5} = \frac{26}{5}\), so term is \(\frac{26}{5}x_1 x_3\)
+
+For \(x_2 x_3\): \(\frac{3}{5} + \frac{5}{3} = \frac{9}{15} + \frac{25}{15} = \frac{34}{15}\), so term is \(\frac{34}{15}x_2 x_3\)
+
+So putting it all together:
+
+\(AB = x_1^2 + x_2^2 + x_3^2 + \frac{10}{3}x_1 x_2 + \frac{26}{5}x_1 x_3 + \frac{34}{15}x_2 x_3\)
+
+Hmm, not sure if expanding was the best idea. Maybe creating a quadratic form here. Alternatively, since we have the constraint \(x_1 + x_2 + x_3 =1\), maybe we can express one variable in terms of the others. For example, \(x_3 =1 - x_1 - x_2\), and substitute into the expression. Let's try that.
+
+Substituting \(x_3 =1 - x_1 - x_2\) (and keeping \(x_1, x_2 \geq 0\), \(x_1 + x_2 \leq1\)) into \(AB\):
+
+First compute \(A = x_1 + 3x_2 + 5x_3 = x_1 + 3x_2 + 5(1 - x_1 - x_2) = x_1 + 3x_2 +5 -5x_1 -5x_2 = 5 -4x_1 -2x_2\)
+
+Similarly, \(B = x_1 + \frac{x_2}{3} + \frac{x_3}{5} = x_1 + \frac{x_2}{3} + \frac{1 - x_1 - x_2}{5}\)
+
+Let me compute \(B\):
+
+\(B = x_1 + \frac{x_2}{3} + \frac{1}{5} - \frac{x_1}{5} - \frac{x_2}{5} = \left( x_1 - \frac{x_1}{5} \right) + \left( \frac{x_2}{3} - \frac{x_2}{5} \right) + \frac{1}{5}\)
+
+Simplify each term:
+
+\(x_1 - \frac{x_1}{5} = \frac{4x_1}{5}\)
+
+\(\frac{x_2}{3} - \frac{x_2}{5} = \frac{5x_2 - 3x_2}{15} = \frac{2x_2}{15}\)
+
+So \(B = \frac{4x_1}{5} + \frac{2x_2}{15} + \frac{1}{5}\)
+
+Thus, the product \(AB\) becomes:
+
+\((5 -4x_1 -2x_2)\left( \frac{4x_1}{5} + \frac{2x_2}{15} + \frac{1}{5} \right)\)
+
+Hmm, perhaps now, since we have only two variables \(x_1\) and \(x_2\), with \(x_1 \geq 0\), \(x_2 \geq 0\), and \(x_1 + x_2 \leq 1\), we can set up this as a function of two variables and find its extrema. But this might involve some tedious calculus. Maybe it's easier to fix one variable and analyze?
+
+Alternatively, perhaps using the method of Lagrange multipliers here. Let's try that approach for constrained optimization.
+
+Objective function: \(f(x_1, x_2, x_3) = (x_1 +3x_2 +5x_3)(x_1 + \frac{x_2}{3} + \frac{x_3}{5})\)
+
+Subject to constraint: \(g(x_1, x_2, x_3) = x_1 + x_2 + x_3 -1 =0\), and \(x_i \geq 0\)
+
+So setting up Lagrangian:
+
+\(\mathcal{L} = (x_1 +3x_2 +5x_3)(x_1 + \frac{x_2}{3} + \frac{x_3}{5}) - \lambda(x_1 + x_2 + x_3 -1)\)
+
+Then compute partial derivatives:
+
+First, compute derivative with respect to x1:
+
+\(\frac{\partial \mathcal{L}}{\partial x_1} = (1)(x_1 + \frac{x_2}{3} + \frac{x_3}{5}) + (x_1 +3x_2 +5x_3)(1) - \lambda =0\)
+
+Similarly, derivative wrt x2:
+
+\(\frac{\partial \mathcal{L}}{\partial x_2} = (3)(x_1 + \frac{x_2}{3} + \frac{x_3}{5}) + (x_1 +3x_2 +5x_3)(\frac{1}{3}) - \lambda =0\)
+
+Derivative wrt x3:
+
+\(\frac{\partial \mathcal{L}}{\partial x_3} = (5)(x_1 + \frac{x_2}{3} + \frac{x_3}{5}) + (x_1 +3x_2 +5x_3)(\frac{1}{5}) - \lambda =0\)
+
+And of course the constraint:
+
+\(x_1 + x_2 + x_3 =1\)
+
+This gives four equations. That seems complicated. Let's write them more clearly.
+
+First equation for x1:
+
+Let me compute:
+
+First term: \(1 \times B = B\), where \(B =x_1 + \frac{x_2}{3} + \frac{x_3}{5}\)
+
+Second term: \((A) \times 1 = A\), where \(A = x_1 +3x_2 +5x_3\)
+
+So equation 1: \(B + A -\lambda =0\)
+
+Similarly, equation 2 for x2:
+
+First term: \(3 \times B\), second term: \(A \times \frac{1}{3}\)
+
+So: 3B + (A)/3 - λ=0
+
+Equation 3 for x3:
+
+First term:5B, second term: A*(1/5)
+
+Hence:5B + A/5 -λ=0
+
+So now we have three equations:
+
+1. A + B = λ
+
+2. 3B + (A)/3 = λ
+
+3. 5B + (A)/5 = λ
+
+And the constraint equation: x1 + x2 + x3 =1
+
+But since A and B can be expressed in terms of x_i, perhaps substituting expressions.
+
+But maybe solve the first three equations for A, B, and λ.
+
+From equation1: λ = A + B
+
+From equation2: λ = 3B + (A)/3
+
+Set equal: A + B = 3B + (A)/3
+
+Multiply both sides by 3 to eliminate denominators:
+
+3A + 3B =9B +A
+
+Subtract A and 3B:
+
+2A =6B → A = 3B
+
+Similarly, from equation3: λ =5B + A/5
+
+But λ =A + B from equation1. So:
+
+A + B =5B + A/5
+
+Multiply both sides by5:
+
+5A +5B =25B +A
+
+Subtract A and 5B:
+
+4A =20B → A=5B
+
+But earlier we had A=3B, now A=5B → Contradiction unless B=0, which would imply A=0. But if A and B are both zero, then:
+
+A =x1 +3x2 +5x3=0 and B=x1 + (x2)/3 + (x3)/5=0
+
+Under the constraint x1+x2+x3=1. But variables are non-negative. Thus, if x1,x2,x3 >=0, the only way A=0 is x1=x2=x3=0, but that contradicts x1+x2+x3=1. Hence, contradiction. Therefore, our assumption (that there's an interior extremum where none of x_i are zero) might be wrong. Hence, perhaps the extremum occurs at the boundary of the domain (i.e., when some variables are zero). Since we can't have all x_i zero, maybe when one or two variables are zero.
+
+Therefore, the extrema may be achieved at the vertices of the simplex defined by x1 +x2 +x3=1, x_i >=0.
+
+Therefore, checking the values at the vertices. The vertices occur when two variables are zero, and the third is 1.
+
+So vertices are (1,0,0), (0,1,0), (0,0,1). Compute AB for each.
+
+First vertex (1,0,0):
+
+A =1 +0 +0=1
+
+B=1 +0 +0=1
+
+So AB=1*1=1
+
+Second vertex (0,1,0):
+
+A =0 +3*1 +0=3
+
+B=0 +1/3 +0=1/3
+
+AB=3*(1/3)=1
+
+Third vertex (0,0,1):
+
+A=0 +0 +5*1=5
+
+B=0 +0 +1/5=1/5
+
+AB=5*(1/5)=1
+
+Interesting! All vertices give AB=1. So maybe the function is constant 1 on the vertices, but maybe higher or lower in between?
+
+But to confirm, perhaps in the earlier approach with expanding the product, with x1 +x2 +x3=1, perhaps use that:
+
+But another strategy: Let’s consider variables substitutions. Since A =x1 +3x2 +5x3 and B=x1 +x2/3 +x3/5. If we denote u =x1, v=x2, w=x3. Then we have u +v +w=1. Maybe use Cauchy-Schwarz. Hmm, for two vectors (u +3v +5w) and (u + v/3 +w/5). The product is like scalar product, but to apply Cauchy-Schwarz, perhaps:
+
+Wait, Cauchy-Schwarz inequality states that (\(\sum a_i b_i\))2 ≤ (\(\sum a_i^2\))(\(\sum b_i^2\)), but here it's product of two sums, not a scalar product.
+
+Alternatively, AM-GM inequality? The product AB. Not sure. Maybe write AB in terms of u, v, w where u= x1, v=x2, w=x3, with u +v +w=1.
+
+Alternatively, think of AB: (u +3v +5w)(u + v/3 +w/5). Let's expand it as done earlier. Earlier expansion gave:
+
+u2 + v2 +w2 + (10/3)uv + (26/5)uw + (34/15)vw
+
+But if u +v +w=1, perhaps can express this in terms of u2 +v2 +w2 and cross terms. Let me recall that (u +v +w)2=1= u2 +v2 +w2 +2(uv + uw + vw). Hence,
+
+u2 +v2 +w2=1 -2(uv + uw + vw). Maybe use that to substitute in AB expression.
+
+Replacing u2 +v2 +w2 in AB:
+
+AB = [1 -2(uv + uw + vw)] + (10/3)uv + (26/5)uw + (34/15)vw
+
+Let's group the terms:
+
+=1 -2uv -2uw -2vw + (10/3)uv + (26/5)uw + (34/15)vw
+
+Combine like terms:
+
+For uv: (-2 + 10/3)uv = ( (-6/3 +10/3 ))uv = (4/3)uv
+
+For uw: (-2 +26/5 )uw = ( (-10/5 +26/5 ))uw = (16/5)uw
+
+For vw: (-2 +34/15)vw = ( (-30/15 +34/15 ))vw = (4/15)vw
+
+So overall:
+
+AB=1 + (4/3)uv + (16/5)uw + (4/15)vw
+
+Alright, so AB=1 + (4/3)uv + (16/5)uw + (4/15)vw
+
+Hmm, since we need to find min and max of AB, which is this expression. The variables u, v, w are non-negative and sum to 1. So we need to analyze the possible values of this expression. All the coefficients for uv, uw, vw are positive. Hence, AB is at least 1, since all cross terms are non-negative. Because if u, v, w are non-negative, then uv, uw, vw are non-negative, and adding these positive coefficients terms will make AB ≥1. Wait, but depending on u, v, w, but in our problem, variables are non-negative, so yeah. Hence the minimum value is 1, which is achieved when all cross terms are zero, i.e., when at most one variable is non-zero, i.e., when two variables are zero, which are the vertices (in line with previous substitution). So the minimum is 1. But wait, but when we checked the vertices, AB was 1, but in between, the cross terms would add more, leading to higher AB. Therefore maximum is achieved somewhere else.
+
+Hence, the maximum value would be when these cross terms are as big as possible. To maximize AB, we need to maximize (4/3)uv + (16/5)uw + (4/15)vw.
+
+Given that u +v +w=1, and u, v, w >=0. So we need to maximize a linear combination of the products uv, uw, vw.
+
+But how to do this? Hmmm. Since u, v, w are variables such that u +v +w =1. Let's consider that in such maximization problems, maximum can often be attained at boundaries or due to some substitution. Maybe set one variable to zero, since if we fix one variable to zero (say u=0), then we can express others in terms of v +w=1. But would help?
+
+Alternatively, maybe use Lagrange multipliers again but this time for the function (4/3)uv + (16/5)uw + (4/15)vw with u +v +w=1 and u, v, w >=0.
+
+This is getting complicated. Alternatively, with u + v + w=1, express one variable, say w=1 - u - v. Then substitute into the expression.
+
+Maximum of f(u, v) = (4/3)uv + (16/5)u(1 - u - v) + (4/15)v(1 - u - v)
+
+with u >=0, v >=0, u + v <=1.
+
+Hmm, expanding f(u, v):
+
+First term: (4/3)uv
+
+Second term: (16/5)u - (16/5)u^2 - (16/5)uv
+
+Third term: (4/15)v - (4/15)uv - (4/15)v^2
+
+Hence:
+
+f(u,v)= (16/5)u + (4/15)v -16/5 u^2 -4/15 v^2 + (4/3 uv -16/5 uv -4/15 uv)
+
+Compute coefficients:
+
+For u: 16/5
+
+For v: 4/15
+
+For u2: -16/5
+
+For v2: -4/15
+
+For uv:
+
+4/3 -16/5 -4/15. Let's compute:
+
+Convert to fifteenths:
+
+4/3 =20/15, 16/5=48/15, 4/15 remains.
+
+Thus, 20/15 -48/15 -4/15 = (20 -48 -4)/15 = (-32)/15
+
+So overall:
+
+f(u, v) = (16/5)u + (4/15)v - (16/5)u2 - (4/15)v2 - (32/15)uv
+
+This is a quadratic function in u and v.
+
+Now, maybe find critical points by taking partial derivatives. Let's do so.
+
+df/du = 16/5 - (32/5)u - (32/15)v
+
+df/dv =4/15 - (8/15)v - (32/15)u
+
+Set derivatives to zero:
+
+16/5 - (32/5)u - (32/15)v = 0
+
+4/15 - (8/15)v - (32/15)u =0
+
+Multiply both equations to eliminate denominators:
+
+First equation multiplied by 15:
+
+48 - 96u - 32v =0 → 96u +32v=48 → divide by 16: 6u +2v=3 → 3u + v=1.5
+
+Second equation multiplied by15:
+
+4 -8v -32u =0 → 32u +8v=4 → divide by4:8u +2v=1
+
+So now, system of equations:
+
+1. 3u + v=1.5
+
+2.8u +2v=1
+
+Let's solve:
+
+From equation1: v=1.5 -3u. Substitute into equation2:
+
+8u +2(1.5 -3u)=1
+
+8u +3 -6u=1 →(8u -6u)=2u +3=1 →2u= -2→u= -1
+
+But u is a variable here which must be non-negative (since u =x1 >=0). Getting u=-1 is not feasible, which suggests that there's no critical point inside the feasible region (i.e., u >=0, v >=0, u +v <=1). Hence, the maximum occurs on the boundary of the feasible region.
+
+Therefore, we can look at boundaries where either u=0, v=0, or u +v=1.
+
+Case 1: u=0.
+
+Then, f(0, v)=0 + (4/15)v -0 - (4/15) v2 -0 = (4/15)v - (4/15)v2 = (4/15)v(1 -v )
+
+This is a quadratic in v with maximum at v=1/2. Hence max value when v=1/2: (4/15)(1/2)(1 -1/2)=(4/15)(1/2)(1/2)=1/15 ≈0.0667
+
+Case2: v=0.
+
+Then, f(u, 0)= (16/5)u +0 - (16/5)u2 -0 -0= (16/5)u - (16/5)u2=(16/5)u(1 -u )
+
+Again a quadratic in u with maximum at u=1/2. Max value: (16/5)(1/2)(1 -1/2)=(16/5)(1/4)=4/5=0.8
+
+Case3: u +v =1. Then, w=1 -u -v=0. Note that in this case, with w=0, then expression becomes AB with w=0. But our variables still u, v, but maybe easier to let let v =1 -u and compute f(u, 1 -u)
+
+Substitute v=1 -u into f(u,v):
+
+f(u,1 -u )= (16/5)u + (4/15)(1 -u) - (16/5)u2 - (4/15)(1 -u )2 - (32/15) u(1 -u )
+
+Let's compute each term.
+
+(16/5)u + (4/15)(1 -u) =16/5 u +4/15 -4/15 u
+
+= (16/5 -4/15)u +4/15
+
+= (48/15 -4/15)u +4/15
+
+= (44/15)u +4/15
+
+Now, -(16/5)u2 - (4/15)(1 -2u +u2) - (32/15)(u -u2)
+
+Let me do term by term:
+
+-16/5 u2 -4/15*(1 -2u +u2) -32/15*(u -u2)
+
+= -16/5 u2 -4/15 +8/15 u -4/15 u2 -32/15 u +32/15 u2
+
+Combine terms:
+
+-16/5 u2 + (-4/15 u2 +32/15 u2) + (8/15 u -32/15 u) -4/15
+
+Convert 16/5 u2 to fifteenths: 48/15 u2
+
+So:
+
+-48/15 u2 + (-4/15 +32/15)u2 + (-24/15 u ) -4/15
+
+= (-48/15 +28/15)u2 -24/15 u -4/15
+
+= (-20/15)u2 -24/15 u -4/15
+
+Simplify fractions:
+
+= (-4/3)u2 - (8/5)u -4/15
+
+So combining with the previous part:
+
+f(u,1 -u ) = [44/15 u +4/15] + [ -4/3 u2 -8/5 u -4/15 ]
+
+= 44/15 u -8/5 u + (-4/3) u2 +4/15 -4/15
+
+Simplify:
+
+Convert 8/5 u to fifteenths:24/15 u. So:
+
+44/15 u -24/15 u=20/15 u=4/3 u
+
+4/15 -4/15=0
+
+So f(u,1 -u )=4/3 u -4/3 u2= (4/3)u (1 -u )
+
+Which is again a quadratic in u with maximum at u=1/2. Max value (4/3)(1/2)(1 -1/2)= (4/3)(1/4)= 1/3≈0.3333
+
+Hence, among all boundaries, the maximum of f(u, v) is 0.8 when v=0 and u=1/2. Therefore, the maximum value of AB is 1 + 0.8=1.8=9/5. Wait, hold on, because in the expression AB=1 + (4/3)uv + (16/5)uw + (4/15)vw, so the 0.8 is from f(u, v). Wait, but we had substituted everything into f(u,v), but no—wait no. Wait, actually, AB was equal to 1 + [ (4/3)uv + (16/5)uw + (4/15)vw ].
+
+Then, when we set u=0, we found f=1/15≈0.0667, so that gives AB≈1.06.
+
+Similarly, when v=0, we had f=0.8→AB=1 +0.8=1.8=9/5=1.8.
+
+When u +v=1, case3, we had f=1/3⇒AB=1 +1/3≈1.333.
+
+So the maximum occurs when v=0, u=1/2, so u=1/2, v=0, w=1−1/2=1/2. Let me check.
+
+Wait, case2 was when v=0. So substitute variables:
+
+v=0, so original variables:u= x1, v= x2=0, and w=1 -u= x3=1 -x1.
+
+Thus, the maximum in case2: at u=1/2 (so x1=1/2, x2=0, x3=1/2).
+
+Hence, in this point, AB is 1 +0.8=1.8=9/5.
+
+Similarly, need to confirm.
+
+Compute AB at x1=1/2, x2=0, x3=1/2:
+
+First compute A= x1 +3x2 +5x3=1/2 +0 +5*(1/2)=1/2 +5/2=6/2=3
+
+Then compute B=x1 + x2/3 +x3/5=1/2 +0 + (1/2)/5=1/2 +1/10=5/10 +1/10=6/10=3/5
+
+AB=3*(3/5)=9/5=1.8. Check. Correct.
+
+So, indeed, AB is 9/5 at midpoint where x1=1/2, x3=1/2.
+
+Similarly, when x1=0, x2=1/2, x3=1/2, perhaps compute. But in our analysis, in Case2 when v=0, the maximum is achieved when u=1/2. But yes, x2=0 is crucial here.
+
+Let me check. Are there any other critical points?
+
+Wait, if we allow two variables non-zero but not the midpoint?
+
+But through the Lagrange multipliers earlier, the critical point gives negative u=-1, which is invalid, so apparently no interior extrema. Only maxima on boundaries.
+
+So thus, the maximum of AB occurs at (1/2, 0, 1/2) giving AB=9/5.
+
+Therefore, the minimum of AB is 1 (at the vertices where two variables are zero, but with given sum 1), and maximum is 9/5 at (1/2,0,1/2).
+
+Wait, but just to make sure we haven't missed other critical points where only two variables are present.
+
+For example, suppose in another edge where x2=0 but x1 +x3=1. Let me confirm.
+
+From case2: when x2=0, then variables x1 andx3 can vary. We found when x1=1/2, x3=1/2 gives maximum AB=9/5. Similarly, I can check when x1=0, x3=1: then A=0 +0 +5*1=5, B=0 +0 +1/5=1/5 ⇒ AB=1. So similar to vertex.
+
+How about somewhere else on x2=0, other than half. For example, x3=0, x1=1: AB=1.
+
+But since in between, e.g., x1=1/2, x3=1/2 gives higher.
+
+Another test point: say x1=1/4, x3=3/4.
+
+Compute A=1/4 +0 +5*(3/4)=1/4 +15/4=16/4=4
+
+B=1/4 +0 + (3/4)/5=1/4 +3/20=5/20 +3/20=8/20=2/5
+
+AB=4*(2/5)=8/5=1.6 <9/5=1.8. Correct.
+
+Similarly, x1=1/3, x3=2/3
+
+A=1/3 +0 +5*(2/3)=1/3 +10/3=11/3≈3.666
+
+B=1/3 +0 + (2/3)/5=1/3 +2/15=5/15 +2/15=7/15≈0.4667
+
+AB=(11/3)(7/15)=77/45≈1.711 <9/5=1.8
+
+Yes, that's lower. So the midpoint, x1=1/2, x3=1/2 yields maximum.
+
+Wait, but how was I certain that the maximum along v=0 edge occurs at midpoint? Wait in case2, when u +v=1 or so? Wait earlier when solving for case2 (v=0) in function f(u,0)= (16/5)u(1 -u) reaches maximum at u=0.5. So indeed, the Quadratic in u is maximum at u=1/2. Therefore, the maximum occurs at u=1/2, x3=1/2. Correct.
+
+Therefore, confirms the max.
+
+Thus, final. Conclusion: min AB=1, achieved at vertices; max AB=9/5, achieved at (1/2,0,1/2).
+
+Wait—this contradicts the initial thought that in the expanded version it would be at least 1—but yeah, correct.
+
+But just to check another point, for minimum—let's say when all variables are split: x1= x2= x3=1/3. Compute AB:
+
+A=1/3 +3*(1/3) +5*(1/3)=1/3 +1 +5/3= (1 +3 +5)/3=9/3=3
+
+B=1/3 + (1/3)/3 + (1/3)/5=1/3 +1/9 +1/15= Convert all to 45ths: 15/45 +5/45 +3/45=23/45≈0.511
+
+AB=3*(23/45)=69/45=23/15≈1.533>1, so indeed bigger than 1, as expected.
+
+Another test (x1=0.6, x2=0.4,x3=0). Compute AB:
+
+First check contstraint x1 +x2=1; x3=0.
+
+A=0.6 +3*0.4 +0=0.6 +1.2=1.8
+
+B=0.6 + (0.4)/3 +0≈0.6 +0.133≈0.733
+
+AB≈1.8*0.733≈1.32, which is above 1.
+
+Hence there are points where AB is greater than 1.
+
+Wait but then the cross terms must be contributing. However, my calculus shows max at 9/5, and min at 1. Therefore, seems the boxed answers: Minimum is 1 and maximum is 9/5.
+
+So probably the answer is min 1, max 9/5, which is 1.8.
+
+Confirm from original AB at (1/2,0,1/2)=9/5=1.8, vertices all AB=1.
+
+Yes, hence the conclusion.
+
+**Final Answer**
+The minimum value is \(\boxed{1}\) and the maximum value is \(\boxed{\dfrac{9}{5}}\).

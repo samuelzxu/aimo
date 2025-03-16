@@ -1,0 +1,42 @@
+<think>
+Alright, let's tackle this problem. We need to compute the sum from k=1 to 1007 of [cos(πk/1007)]^2014. The exponent 2014 is even, so maybe we can use some trigonometric identities or properties of roots of unity.
+
+First, I recognize that [cosθ]^2014 can be written as [cos²θ]^1007. Using the power-reduction formula, cos²θ = (1 + cos2θ)/2. But expanding this directly for such a large exponent seems messy. Maybe using Euler's formula? Express cosθ as (e^(iθ) + e^(-iθ))/2 and then raise it to the 2014th power.
+
+Expanding using the binomial theorem gives a sum of terms involving e^(iθ(2014 - 2j))/2^2014. When we sum over k from 1 to 1007, most terms cancel out due to orthogonality of roots of unity. The only terms that survive are when the exponent is a multiple of 1007. This happens for j=0, 1007, and 2014. These contributions come from the binomial coefficients C(2014,0), C(2014,1007), and C(2014,2014). 
+
+The sum simplifies to 1007*(2 + C(2014,1007))/2^2014. The C(2014,0) and C(2014,2014) terms each contribute 1, and the central term C(2014,1007) is the largest. 
+
+Testing smaller cases like m=1,2,3 confirms this formula works. Thus, the final answer is derived using the properties of binomial coefficients and orthogonality.
+</think>
+
+- Paragraph 1, Sentence 1: <keep>Compute $\sum_{k=1}^{1007}\left(\cos \left(\frac{\pi k}{1007}\right)\right)^{2014}$.</keep>
+- Paragraph 1, Sentence 2: <keep>First off, exponents with cosine can sometimes be dealt with using power-reduction formulas.</keep>
+- Paragraph 2, Sentence 1: <keep>Alternatively, since 2014 is an even number, I can rewrite it as [cos²(θ)]^{1007}.</keep>
+- Paragraph 3, Sentence 1: <keep>Wait, another thought: when dealing with sums over roots of unity or trigonometric sums, sometimes symmetry or properties of complex numbers can help.</keep>
+- Paragraph 3, Sentence 2: <keep>We know that cosθ = (e^{iθ} + e^{-iθ})/2. Therefore, [cosθ]^n = [(e^{iθ} + e^{-iθ})/2]^n.</keep>
+- Paragraph 5, Sentence 1: <keep>The sum over k=1}^{1007} e^{iπk*(2014 - 2j)/1007}.</keep>
+- Paragraph 6, Sentence 1: <keep>Simplify the exponent:</keep>
+- Paragraph 6, Sentence 2: <keep>2014 -2j: 2014=2*1007, so the exponent is (2*1007 - 2j)/1007 * πk = (2(1007 -j)/1007) * πk.</keep>
+- Paragraph 7, Sentence 1: <keep>Therefore, sum_{k=1}^{1007} e^{i2πk m /1007} = -1 + sum_{k=0}^{1007} e^{i2πk m /1007}.</keep>
+- Paragraph 8, Sentence 1: <keep>IF m ≡0 mod N => sum_{k=1}^N e^{i2 pi k m/N }= N ELSE, sum is0.</keep>
+- Paragraph 9, Sentence 1: <keep>Hence, our entire original sum is Σ_{j=0}^{2014} C(2014,j)/2^{2014}* [1007*delta_{m,0 mod1007} +0].</keep>
+- Paragraph 9, Sentence 2: <keep>Hence the sum is (C(2014,0)*1007)/2^{2014} + (C(2014,1007)*1007)/2^{2014} + (C(2014,2014)*1007)/2^{2014}.</keep>
+- Paragraph 10, Sentence 1: <keep>Sum_{k=1}^{1007} [cos(πk/1007)]^{2014} = (1007/2^{2014})(2 + C(2014,1007)).</keep>
+- Paragraph 11, Sentence 1: <keep>For m=1:1=1,m=2 formula gives1,matches.</keep>
+- Paragraph 11, Sentence 2: <keep>For m=3:3*(2 +20)/3 ?=?</keep>
+- Paragraph 12, Sentence 1: <keep>Hence, for m=1007, Sum=1007*(2 + C(2014,1007}/2^{2014}}.</keep>
+- Paragraph 13, Sentence 1: <keep>The answer is \boxed{\dfrac{1007 \left( 2 + \dbinom{2014}{1007} \right)}{2^{2014}}}.</keep>
+- Paragraph 2, Sentence 2: <keep>But expanding that binomial expression still seems complicated.</keep>
+- Paragraph 4, Sentence 1: <keep>Using Euler's formula to express cosine in terms of exponentials.</keep>
+- Paragraph 4, Sentence 2: <keep>Expanding this using the binomial theorem would give a sum from k=0 to n of C(n,k) e^{iθ(n - 2k)} / 2^n.</keep>
+- Paragraph 5, Sentence 2: <keep>Changing the order of summation:</keep>
+- Paragraph 5, Sentence 3: <keep>Sum_{j=0}^{2014} C(2014,j)/2^{2014} [Sum_{k=1}^{1007} e^{iπk*(2014 - 2j)/1007} }.</keep>
+- Paragraph 6, Sentence 3: <keep>Let us denote m = 1007 -j. Then, the exponent inside is i2πk m /1007. So, the sum is Σ_{k=1}^{1007} e^{i2πk m /1007}.</keep>
+- Paragraph 7, Sentence 2: <keep>But the sum over k=0 to 1006 is a geometric series that sums to (1 - e^{i2π*1007*(m)/1007})/(1 - e^{i2πm /1007))}= (1 - e^{i2πm})/(1 - e^{i2πm /1007))= 0, unless m is divisible by 1007.</keep>
+- Paragraph 8, Sentence 2: <keep>ELSE, sum_{k=1}^N e^{i2 pi k m/N }=0.</keep>
+- Paragraph 9, Sentence 3: <keep>Hence, returning to our original problem, with the inner sum:</keep>
+- Paragraph 10, Sentence 2: <keep>But in actual formula, sum=1007*(2 + C(2014,1007}} /2^{2014}}.</keep>
+- Paragraph 11, Sentence 3: <keep>Hmm.</keep>
+- Paragraph 12, Sentence 2: <keep>Thus, thereby in general, it's valid: Sum_{k=1}^{m} [cos(πk/ m)]^{2m}= m*(2 + C(2m, m)) /2^{2m}}.</keep>
+- Paragraph 13, Sentence 2: <keep>Answer: \boxed{\dfrac{1007 \left( 2 + \dbinom{2014}{1007} \right)}{2^{2014}}}.</keep>

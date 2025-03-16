@@ -1,0 +1,44 @@
+<think>
+Okay, let's try to figure out which parts of the reasoning are essential for future steps. The user wants me to mark these with <keep> tags.
+
+First, the problem involves two recursive sequences and an infinite sum. The key steps seem to be when the assistant realizes that the sum might telescope and starts manipulating the recurrence relations. 
+
+The initial problem statement with the recurrence relations and initial conditions is crucial. Then, the assistant's thought process about telescoping sums and expressions involving a_{n+3} is important. The substitution steps where they express a_{n+3} in terms of a_{n+1} and b_n are critical for later simplifications. 
+
+Another key part is when the assistant splits the sum into two parts and simplifies each, particularly when they use the recurrence for b_{n+2} to rewrite terms. The part where they express b_n/a_{n+1} as a telescoping difference [1/(a_{n-1}-1) - 1/a_{n+1}] is vital for the sum's cancellation. 
+
+Finally, the simplification steps where they compute the sum components leading to the final answer of 1 + 1/(2014*2015) are essential. These steps involve careful index shifts and recognizing telescoping patterns. 
+
+I need to ensure these parts are marked so that any future reasoning can track how the telescoping works and how the substitutions from the recurrence relations lead to the solution. The final answer's derivation is also a must-keep part.
+</think>
+
+- Paragraph 1, Sentence 3: <keep>The sequences satisfy $a_{n+1} = (a_{n-1} - 1)(b_n + 1)$ for $n \geq 2$, and $b_{n+1} = a_n b_{n-1} - 1$ for $n \geq 2$.</keep>
+- Paragraph 2, Sentence 2: <keep>The goal is to compute the infinite sum $\sum_{n=1}^{\infty} b_n \left( \frac{1}{a_{n+1}} - \frac{1}{a_{n+3}} \right)$.</keep>
+- Paragraph 2, Sentence 4: <keep>Since it's an infinite sum, maybe it telescopes?</keep>
+- Paragraph 4, Sentence 1: <keep>First, let me note the definitions again: For $a_{n+1}$, the recurrence is $a_{n+1} = (a_{n-1} - 1)(b_n + 1)$.</keep>
+- Paragraph 4, Sentence 2: <keep>Similarly, $b_{n+1} = a_n b_{n-1} - 1$ relates $b_{n+1}$ to $a_n$ and $b_{n-1}$.</keep>
+- Paragraph 6, Sentence 1: <keep>Wait, perhaps instead of trying to find explicit expressions for $a_n$ and $b_n$, I can look for a telescoping sum by expressing the term $b_n \left( \frac{1}{a_{n+1}} - \frac{1}{a_{n+3}} \right)$ as a difference $s_n - s_{n+2}$ or something similar.</keep>
+- Paragraph 8, Sentence 1: <keep>Starting with the definition of $a_{n+1}$: $a_{n+1} = (a_{n-1} - 1)(b_n + 1)$.</keep>
+- Paragraph 9, Sentence 1: <keep>For $a_{n+3}$, setting $m = n + 3$, then: $a_{n+3} = (a_{n+1} - 1)(b_{n+2} + 1)$.</keep>
+- Paragraph 9, Sentence 4: <keep>Hence, $a_{n+3} = a_{n+1}(a_{n+1} - 1) b_n$.</keep>
+- Paragraph 10, Sentence 1: <keep>Therefore, $1/a_{n+3} = 1/(a_{n+1}(a_{n+1} - 1) b_n)$.</keep>
+- Paragraph 10, Sentence 3: <keep>Therefore, $1/a_{n+1} - 1/a_{n+3} = \frac{(a_{n+1} - 1) b_n - 1}{a_{n+1}(a_{n+1} - 1) b_n}$.</keep>
+- Paragraph 11, Sentence 2: <keep>From the recurrence relation: we have $b_{n+2} = a_{n+1} b_n - 1$.</keep>
+- Paragraph 11, Sentence 6: <keep>Therefore, the numerator is $b_{n+2} - b_n$.</keep>
+- Paragraph 12, Sentence 1: <keep>Hence, putting it all together: $1/a_{n+1} - 1/a_{n+3} = \frac{b_{n+2} - b_n}{a_{n+1}(a_{n+1} - 1)}$.</keep>
+- Paragraph 13, Sentence 1: <keep>Therefore, the term in the sum, which is $b_n \left( 1/a_{n+1} - 1/a_{n+3} \right)$, becomes: $\frac{b_{n+2} - b_n}{a_{n+1}(a_{n+1} - 1)}$.</keep>
+- Paragraph 14, Sentence 1: <keep>From the recursion for $b_{n+2}$: $b_{n+2} = a_{n+1} b_n - 1$.</keep>
+- Paragraph 15, Sentence 1: <keep>So, the numerator $[b_{n+2} - b_n] = b_n(a_{n+1} - 1) - 1$.</keep>
+- Paragraph 16, Sentence 1: <keep>Therefore, the term in the sum is $\frac{b_n}{a_{n+1}} - \frac{1}{a_{n+1}(a_{n+1} - 1)}$.</keep>
+- Paragraph 17, Sentence 1: <keep>Note that for the second part, $\frac{1}{a_{n+1}(a_{n+1} - 1)} = \frac{1}{a_{n+1} - 1} - \frac{1}{a_{n+1}}$.</keep>
+- Paragraph 17, Sentence 4: <keep>Which would then telescope starting from $m=2$.</keep>
+- Paragraph 18, Sentence 1: <keep>Sum from $n=1$ to $\infty$ of $b_n / a_{n+1}$ equals term at $n=1$ ($2013/2015$) plus sum from $n=2$ to $\infty$ of $[1/(a_{n-1} - 1) - 1/a_{n+1}]$.</keep>
+- Paragraph 19, Sentence 2: <keep>Hence, the entire first sum (total) is $2013/2015 + [\sum_{k=1}^\infty 1/(a_k - 1) - (\sum_{k=1}^\infty 1/a_k - 2/2015)]$.</keep>
+- Paragraph 19, Sentence 7: <keep>= 1 + \sum_{k=1}^\infty [1/(a_k - 1) - 1/a_k]$.</keep>
+- Paragraph 20, Sentence 1: <keep>Observe that $\sum_{k=1}^\infty [1/(a_k - 1) - 1/a_k]$ is exactly the same as $\sum_{k=1}^\infty 1/(a_k(a_k - 1))$.</keep>
+- Paragraph 21, Sentence 1: <keep>Therefore, the entire sum splits into two sums: $\sum_{n=1}^\infty (b_n / a_{n+1}) - \sum_{n=1}^\infty 1/(a_{n+1}(a_{n+1} - 1))$.</keep>
+- Paragraph 21, Sentence 5: <keep>Hence, Total sum = 1 + $1/(a_1(a_1 - 1))$.</keep>
+- Paragraph 22, Sentence 1: <keep>Given $a_1 = 2015$, the total sum is $1 + 1/(2015 \times 2014)$.</keep>
+- Paragraph 23, Sentence 1: <keep>Therefore, the final answer is $1 + 1/(2015 \times 2014)$.</keep>
+
+This selection covers key steps like initial definitions, recursion manipulations, telescoping insights, and final summation simplification.

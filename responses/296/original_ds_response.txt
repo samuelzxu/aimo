@@ -1,0 +1,205 @@
+Okay, let's see. I need to find the length PQ in this rectangle ABCD where AB is 63 and BC is 448. Points E and F are on AD and BC respectively such that AE = CF = 84. The incircle of triangle BEF is tangent to EF at point P, and the incircle of triangle DEF is tangent to EF at point Q. Then find PQ.
+
+First, maybe I should visualize the rectangle. Let me sketch it mentally. ABCD is a rectangle with AB = 63 (so that's the length of the horizontal sides) and BC = 448 (vertical sides). Points A, B, C, D are arranged such that AB is the bottom side, BC is the right side, CD is the top, and DA is the left side. Then E is on AD and F is on BC, such that AE = CF = 84. Since AD is vertical and has length BC = 448, AE = 84 would place E 84 units below A along AD. Similarly, CF = 84 would place F 84 units above C along BC. Wait, but since BC is 448 units long, then BF would be BC - CF = 448 - 84 = 364. So F is 364 units above B? Same with E: AE = 84, so E is 84 units below A on AD, which is 448 units long. So ED would be 448 - 84 = 364. Got it.
+
+Okay, coordinates might help here. Let's assign coordinate system. Let me place point A at (0, 0). Then B would be at (63, 0), C at (63, 448), and D at (0, 448). Point E is on AD. Since AD is from (0, 0) to (0, 448), AE = 84, so E would be at (0, 84). Similarly, point F is on BC with CF = 84. Since BC is from (63, 448) to (63, 0), CF is 84, so counting 84 units up from C, which is towards B, so F would be at (63, 448 - 84) = (63, 364).
+
+Now, EF is the line segment connecting E(0, 84) and F(63, 364). Let's determine the coordinates of EF. The coordinates of E are (0,84) and F are (63,364). So the equation of EF can be found. But maybe first calculating the coordinates of points B, E, F, D will help with the triangles BEF and DEF.
+
+Triangle BEF has vertices at B(63,0), E(0,84), and F(63,364). Wait, but points B and F both have x-coordinate 63. So BF is vertical from (63,0) to (63, 364), but E is at (0,84). So the triangle BEF is a bit slanty.
+
+Similarly, triangle DEF has vertices D(0,448), E(0,84), and F(63,364). So DE is from (0,448) to (0,84), which is vertical, and EF is the same as before from E(0,84) to F(63,364).
+
+We need to find the incircle of triangle BEF tangent to EF at P, and incircle of triangle DEF tangent to EF at Q, then find PQ. So first, maybe compute the lengths needed for triangles BEF and DEF to find the points of tangency.
+
+Remember that in any triangle, the point where the incircle touches a side is at a distance from the adjacent vertex equal to (perimeter/2 - opposite side). In other words, if we have a triangle with sides a, b, c, the distance from vertex A to the point where incircle touches side BC is (AB + AC - BC)/2. Wait, yes. So the formula is that the tangency point on a side is at a distance from each vertex equal to the semiperimeter minus the opposite side.
+
+So in triangle BEF, the inradius touches EF at P. The distance from E to P along EF should be (EB + EF - BF)/2. Similarly, the distance from F to P along EF should be (FB + FE - BE)/2. Similarly for triangle DEF, the incircle touches EF at Q, so the distance from E to Q is (ED + EF - DF)/2 and from F to Q is (FD + FE - DE)/2. If that’s the case, then PQ can be computed as |EP - EQ| depending on the ordering of points.
+
+Alternatively, maybe compute the coordinates of P and Q on EF.
+
+First, let's compute the coordinates of points B, E, F, D. As established earlier:
+
+- B: (63, 0)
+- E: (0, 84)
+- F: (63, 364)
+- D: (0, 448)
+
+Now, let's compute the sides of triangles BEF and DEF.
+
+First, triangle BEF: points B(63,0), E(0,84), F(63,364).
+
+Compute BE, BF, EF.
+
+BE distance from B(63,0) to E(0,84): sqrt((63-0)^2 + (0-84)^2) = sqrt(632 + 842).
+
+Compute 63^2 = 3969, 84^2 = 7056, sum is 3969 + 7056 = 11025, so sqrt(11025) = 105. So BE = 105.
+
+BF is vertical distance from B(63,0) to F(63,364): difference in y-coordinates: 364 - 0 = 364, so BF = 364.
+
+EF distance from E(0,84) to F(63, 364): sqrt((63-0)^2 + (364-84)^2) = sqrt(632 + 2802).
+
+Compute 63^2 = 3969, 280^2 = 78400. Sum is 3969 + 78400 = 82369. sqrt(82369): Let me compute, 287^2 = 82369, because 280^2 = 78400, 287^2 = (280+7)^2=280^2+2*280*7 +7^2=78400+3920+49=82369. Yes. So EF=287.
+
+So sides of triangle BEF are BE=105, BF=364, EF=287. So the semiperimeter of triangle BEF is (105 + 364 + 287)/2 = (756)/2 = 378.
+
+Wait, 105 + 364 is 469, plus 287 gives 756. Yes, then semiperimeter (s) is 378. Hence, the tangency point P on EF would be located at a distance from E equal to s - BF. So s - BF = 378 - 364 =14. So EP =14. Similarly, the distance from F to P would be s - BE = 378 - 105 =273. Check if 14 + 273 =287, which is EF. Yes, so that checks out.
+
+So in triangle BEF, the incircle touches EF at point P which is 14 units away from E and 273 units away from F.
+
+Similarly, for triangle DEF: points D(0,448), E(0,84), F(63,364).
+
+Compute sides DE, DF, EF.
+
+DE is from D(0,448) to E(0,84): vertical distance of 448 - 84 = 364. So DE =364.
+
+DF from D(0,448) to F(63,364): sqrt((63-0)^2 + (364 - 448)^2) = sqrt(632 + (-84)^2) = same as BE, which is sqrt(632 +842)=105. So DF=105.
+
+EF is the same as before, from E(0,84) to F(63,364): which we previously found as 287.
+
+So triangle DEF has sides DE=364, DF=105, EF=287. So the semiperimeter (s') is (364 + 105 + 287)/2 = (756)/2 = 378 again. So same semiperimeter. Interesting.
+
+The inradius in triangle DEF touches EF at Q. The distance from E to Q along EF is s' - DF = 378 -105 =273. Similarly, the distance from F to Q is s' - DE= 378 - 364=14.
+
+So in triangle DEF, the incircle touches EF at Q, which is 273 units from E and 14 units from F.
+
+Wait, hold on. So in triangle BEF, the incircle touches EF at P, 14 from E and 273 from F. And in triangle DEF, the incircle touches EF at Q, which is 273 from E and 14 from F. So that would mean that P is 14 units from E, Q is 273 units from E, same line EF. So PQ is the distance between them which is |273 -14|=259. However, but hold on, since EF is length 287. Wait, if in both triangles the semiperimeter is the same, then the point P is near E (14 away) and Q is near F (14 away from F). Wait, but no. Wait in DEF, s' is 378, distance from E to Q is s' - DF = 378 -105=273, but DF is 105. Wait ED is 364, DF is 105, EF is 287. The formula in DEF: the inradius touches EF at distance from E is (DE + EF - DF)/2, which would be (364 + 287 - 105)/2 = (546)/2 =273, right. Similarly, distance from F is (DF + EF - DE)/2 = (105 + 287 -364)/2 = (1060-1058? Hmm wait 105+287=392 -364=28)/2=14. So yes.
+
+Therefore the incircle for DEF touches EF at Q which is 273 from E (and 14 from F) and the incircle for BEF touches EF at P which is 14 from E (273 from F). Hence, since EF is 287, then the points P and Q are on EF, with P near E (14 away) and Q far from E (273 away). But since EF is 287 units, P and Q are separated by 287 -14 -14? Wait no, because E to Q is 273 and E to P is 14. So the locations of Q and P on EF?
+
+Wait EF is from E to F. The length is 287.
+
+In triangle BEF: P is offset 14 from E towards F.
+
+In triangle DEF: Q is offset 273 from E towards F, but since EF is 287, then 273 from E is equivalent to 14 from F.
+
+Thus PQ would be |273 -14|=259. But wait, let me check.
+
+But EF is from E (0,84) to F (63,364). Let me parametrize EF as a line. Let's get parametric equations for EF. The vector from E to F is (63,364-84) = (63,280). So the total length is sqrt(632 +2802) as before, 287. So parameter t from 0 to 287, where t=0 is E and t=287 is F.
+
+The point P is at t=14 (since it's 14 from E).
+
+The point Q is at t=273 (since 273 from E, which is 287 -14 = 273). Wait 287 -14 = 273? Wait actually 287 - 14 =273.
+
+So PQ is if Q is at t=273 and P is at t=14: |273 -14| =259. But the length is along the line EF which is 287? So PQ is 259. Wait, but 14 +259 =273. It's from P to Q, where P is closer to E (14) and Q is 273 from E, so PQ is Q-P =273 -14=259. Yes. So PQ=259. So answer is 259.
+
+Wait, but maybe we need to verify that the direction along EF. Since both points are along EF, but in parameterization from E to F. So yes, ordering is E-P-Q-F, where P is 14 from E, Q is 273 from E (14 from F) hence PQ=259.
+
+Therefore, the answer is \boxed{259}.
+
+Wait, but in checking again distance from E to Q in DEF is 273, but EF is 287 so 273 is allowed. 273 <287. Similarly EP in BEF is 14.
+
+So 273 -14=259, so PQ is 259. That seems correct. That seems straightforward. Maybe check semiperimeter of both triangles.
+
+For BEF: sides 105, 364, 287. S=378. Inradius in BEF would be area / s. Let's compute area. The coordinates are B(63,0), E(0,84), F(63,364). The area can be calculated via shoelace formula.
+
+Coordinates:
+
+B(63,0), E(0,84), F(63,364), back to B(63,0).
+
+Area: |(63*84 + 0*364 +63*0 ) - (0*0 +84*63 +364*63)| /2.
+
+Compute first part: 63*84 +0 +0 =5292.
+
+Second part:0 +84*63 +364*63.
+
+Compute 84 +364=448 *63=28224.
+
+Then subtract first part - second part: 5292 -28224= -22932. Absolute value /2 =22932 /2=11466. So area is11466. Inradius r= area / s=11466/378=30.3? Wait 378 *30= 11340, 30.3*378=11466. 378*30=11340, 378*0.3=113.4, so total 11340 +113.4=11453.4. Hmm, not 11466. Wait perhaps do division.
+
+11466 ÷ 378: Divide numerator and denominator by 42? 11466 ÷42= 273, 378 ÷42=9. So 273/9=30.333... So 30.333..., but exact value is 273/9=30.333...= 30 and 1/3. But perhaps incircle tangent has radius 30.333..., but maybe I don't need that.
+
+Similarly, DEF vertices: D(0,448), E(0,84), F(63,364)
+
+Area of DEF. Use shoelace formula.
+
+Coordinates: D(0,448), E(0,84), F(63,364), back to D(0,448)
+
+Area |0*84 +0*364 +63*448 - (448*0 +84*63 +364*0)| /2
+
+First part:0 +0 +63*448=63*448=28224.
+
+Second part:0 +84*63 +0=5292.
+
+First - second=28224 -5292=22932. Absolute over 2=22932/2=11466. Same area, as expected, since the two triangles BEF and DEF combined make up the trapezoid BEFD, but overlapping or?
+
+Anyway, so area of DEF is also 11466, semiperimeter is 378, so inradius r=11466 /378=30.333... again. So same inradius? Wait, actually, inradius calculated. Wait seems both triangles have same area and same semiperimeter, so same inradius. That's interesting, but maybe not essential here.
+
+But coming back, points of tangency are calculated via s - side.
+
+For both triangles, s=378.
+
+In triangle BEF: tangency on EF is at s - BF =378 -364=14 from E.
+
+In triangle DEF: tangency on EF is at s' - DF=378 -105=273 from E.
+
+Thus, the distance along EF from E is 14 and 273. So the PQ is 273 -14 =259. Seems straightforward, so answer is 259.
+
+But hold on, maybe make sure about orientation. Since we have E and F on their respective sides. Let's check: if E is at (0,84) and F is at (63,364), EF is going from E up and to the right to F.
+
+In triangle BEF (vertices B(63,0), E(0,84), F(63,364)), incircle tangent to EF at P 14 away from E. So starting from E, moving 14 units along EF towards F is point P.
+
+Similarly, triangle DEF (vertices D(0,448), E(0,84), F(63,364)), incircle tangent to EF at Q 273 units from E, so that's 273 from E towards F along EF. Since EF is length 287 total, then from F, Q is 14 units back. So that is, Q is near F but 14 units away towards E. So PQ is 273 -14=259. Length aligns.
+
+Alternatively, check coordinates. Coordinates of P along EF. Start at E(0,84).
+
+EF's direction is towards F(63,364). The direction vector is (63,280). So unit vector in direction of EF: (63,280)/287. Since sqrt(632 +2802)=287 as before.
+
+Parametrize EF as E + t*(63,280)/287, with t from 0 to287.
+
+Point P is at t=14:
+
+So t=14:
+
+x = 0 +14*(63)/287 =14*63/287. 63=9*7, 287=41*7. So 63/287=9/41. So x=14*(9/41)=126/41.
+
+y=84 +14*(280)/287=84 +14*(280)/(287). 280/287=40/41. So y=84 +14*(40/41)=84 +560/41=84 +13.6585...=97.6585...
+
+Similarly for Q, which is at t=273:
+
+x=0 +273*(63)/287=273*(63)/287. 273=39*7, 287=41*7, so 273/287=39/41. So x=39/41*63= (39*63)/41=2457/41=60. If compute 39*63:40*63=2520 -1*63=2457. Yeah. So x=2457/41.
+
+y=84 +273*(280)/287=84 +273* (40/41)=84 + 10,920/41=84 +266.34146≈84+266.34146≈350.341. Wait, but maybe exact is better.
+
+Alternatively, compute x_E=0, y_E=84; x_F=63,y_F=364.
+
+Slope of EF is (364-84)/(63-0)=280/63=40/9.
+
+So parametric equations for EF: x=0 +63*t, y=84 +280*t, where t in [0,1]. Mistaken maybe earlier in param but maybe safer. Wait in parameterization from E to F in t from 0 to1.
+
+At t =14/287=14/287=2/41≈0.0488.
+
+Then x=0 +63*(14/287)=63*(14)/287= (63)*14/287=882/287=126/41 as before.
+
+Similarly, for t=273/287=39/41,
+
+x=63*(39/41)=2457/41≈60.
+
+So point P is (126/41, 84 +280*(14/287)) = (126/41, 84 + 40*14/41)=84 + 560/41. Which is equal (84*41 +560)/41= (3444 +560)/41=4004/41=97.6585...
+
+Similarly, point Q is (2457/41,84 +280*(273/287))= 84 +280*(39/41)=84 +10920/41=(84*41 +10920)/41=(3444 +10920)/41=14364/41=350.3414...
+
+Now compute PQ. The coordinates of P and Q.
+
+Coordinates of P: (126/41, 4004/41)
+
+Coordinates of Q:(2457/41,14364/41)
+
+The distance PQ is [(2457/41 -126/41)^2 + (14364/41 -4004/41)^2]^(1/2)
+
+Compute differences:
+
+x: (2457 -126)/41=2331/41
+
+y: (14364 -4004)/41=10360/41
+
+Then PQ= sqrt( (2331/41)^2 + (10360/41)^2 )= (1/41)sqrt(23312 +103602 )
+
+Hmm, this seems messy. Is there a better way?
+
+But wait, since PQ is on EF, which is a straight line. So PQ can be computed as |Q - P| along EF. Since EF is parametrized from t=14 to t=273, which is 273-14=259. Therefore, since EF has length 287 units, each unit t corresponds to 287 length. But since we parametrized t= 0 to t=287 for the length. Then moving from t=14 to t=273 is length 273-14=259. So even though the Euclidean distance calculation we tried gives the answer, I think that because PQ is along the straight line EF directly. So PQ is just 259. Hence the answer is 259.
+
+Therefore despite being confused for some time, PQ is 259. So the answer should be 259.
+
+**Final Answer**
+\boxed{259}

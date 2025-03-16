@@ -1,0 +1,61 @@
+<think>
+Okay, let's break down the problem step by step. We need to find the time-0 price of a contingent claim that pays \( S(1)^\alpha \) at time 1, given some parameters. The key steps involve understanding the Black-Scholes framework, risk-neutral valuation, and using the given information to solve for the unknown constant \(\alpha\).
+
+1. **Given Parameters**:
+   - \( S(0) = 0.5 \)
+   - Stock price dynamics: \( \frac{dS(t)}{S(t)} = 0.05 dt + 0.2 dZ(t) \)
+   - \( E[S(1)^\alpha] = 1.4 \) (under the real-world measure)
+   - Risk-free rate \( r = 0.03 \)
+
+2. **Risk-Neutral Measure Adjustment**:
+   - The stock's drift under the real-world measure is 0.05, and the risk-free rate is 0.03. Using Girsanov's theorem, we adjust the drift to the risk-free rate. The market price of risk \( \theta \) is \( (0.05 - 0.03)/0.2 = 0.1 \).
+
+3. **Solving for \(\alpha\)**:
+   - The expectation \( E[S(1)^\alpha] = 1.4 \) under the real-world measure can be expressed using the log-normal distribution properties of \( S(1) \). This leads to solving the equation:
+     \[
+     (0.5)^\alpha \exp\left( \alpha \cdot 0.05 + 0.5 \cdot \alpha (\alpha - 1) \cdot 0.04 \right) = 1.4
+     \]
+   - Solving this equation, we find \(\alpha = -0.5\).
+
+4. **Risk-Neutral Expectation**:
+   - Using the risk-neutral measure, we calculate the expected value of \( S(1)^{-0.5} \). This involves adjusting the real-world expectation using the Radon-Nikodym derivative and Girsanov's theorem, leading to:
+     \[
+     E^Q[S(1)^{-0.5}] = 1.4 \cdot \exp(0.01)
+     \]
+
+5. **Time-0 Price Calculation**:
+   - The time-0 price is the discounted risk-neutral expectation:
+     \[
+     e^{-0.03} \cdot 1.4 \cdot \exp(0.01) = 1.4 \cdot \exp(-0.02)
+     \]
+   - Approximating \( \exp(-0.02) \approx 0.9802 \), the price is approximately \( 1.4 \cdot 0.9802 \approx 1.3723 \), which rounds to 1.37.
+
+The final answer is determined by recognizing the need to adjust the real-world expectation to the risk-neutral measure and using the given parameters to solve for \(\alpha\). The key steps involve understanding measure changes and applying the Black-Scholes framework correctly.
+</think>
+
+- Paragraph 2, Sentence 1: <keep>First, the stock price follows the Black-Scholes model, so the dynamics are given by equation (ii): dS(t)/S(t) = 0.05dt + 0.2dZ(t).</keep>
+- Paragraph 2, Sentence 2: <keep>Here, Z(t) is a standard Brownian motion.</keep>
+- Paragraph 2, Sentence 3: <keep>The initial stock price S(0) is 0.5.</keep>
+- Paragraph 2, Sentence 4: <keep>The risk-free rate is 3%, which is 0.03.</keep>
+- Paragraph 2, Sentence 5: <keep>We also know that E[S(1)^α] = 1.4, where α is a negative constant.</keep>
+- Paragraph 2, Sentence 6: <keep>Our task is to find the time-0 price of a contingent claim that pays S(1)^α at time 1.</keep>
+- Paragraph 3, Sentence 1: <keep>In the Black-Scholes framework, the price of a contingent claim is the expected discounted payoff under the risk-neutral measure.</keep>
+- Paragraph 3, Sentence 2: <keep>However, here they provided the expectation under the real-world measure, since the drift given in (ii) is 0.05, which is likely different from the risk-free rate.</keep>
+- Paragraph 4, Sentence 1: <keep>The market price of risk θ is (μ - r)/σ, where μ is the real-world drift (0.05), r is the risk-free rate (0.03), and σ is the volatility (0.2).</keep>
+- Paragraph 4, Sentence 2: <keep>So θ = (0.05 - 0.03)/0.2 = 0.02 / 0.2 = 0.1.</keep>
+- Paragraph 4, Sentence 3: <keep>Then, by Girsanov's theorem, under the risk-neutral measure, the Brownian motion Z(t) becomes Z*(t) = Z(t) + θ t.</keep>
+- Paragraph 4, Sentence 4: <keep>Therefore, the dynamics of S(t) under the risk-neutral measure would be:</keep>
+- Paragraph 4, Sentence 5: <keep>dS(t)/S(t) = (μ - σ θ) dt + σ dZ*(t) = (0.05 - 0.2 * 0.1) dt + 0.2 dZ*(t) = (0.05 - 0.02) dt + 0.2 dZ*(t) = 0.03 dt + 0.2 dZ*(t)</keep>
+- Paragraph 5, Sentence 1: <keep>But our task is to price the contingent claim, which is the discounted expectation under the risk-neutral measure.</keep>
+- Paragraph 5, Sentence 2: <keep>However, the problem gives us E[S(1)^α] = 1.4 under the real-world measure.</keep>
+- Paragraph 6, Sentence 1: <keep>Let me recall that in the Black-Scholes model, if S(t) follows a geometric Brownian motion, then S(t)^α is log-normally distributed as well.</keep>
+- Paragraph 6, Sentence 2: <keep>Because if S(t) = S(0) exp( (μ - 0.5 σ^2)t + σ Z(t)), then S(t)^α = S(0)^α exp( α(μ - 0.5 σ^2)t + α σ Z(t)).</keep>
+- Paragraph 6, Sentence 3: <keep>Which is another log-normal variable with drift α(μ - 0.5 σ^2)t and volatility α σ.</keep>
+- Paragraph 6, Sentence 4: <keep>Therefore, the expectation of S(t)^α under the real-world measure would be E[S(t)^α] = S(0)^α exp( α μ t - 0.5 α σ^2 t + 0.5 α^2 σ^2 t )</keep>
+- Paragraph 7, Sentence 1: <keep>Given that E^P [S(1)^α] = 1.4, we could perhaps express E^P [S(1)^{α - 0.5} } in terms of E^P [S(1)^α} multiplied by some factors.</keep>
+- Paragraph 8, Sentence 1: <keep>Using the quadratic formula, we solve for α and find that α ≈ -0.5.</keep>
+- Paragraph 8, Sentence 2: <keep>Since α is negative, the valid solution is α = -0.5.</keep>
+- Paragraph 9, Sentence 1: <keep>Now that we found α = -0.5, we can compute the time-0 price of the contingent claim which is e^{-0.03} * 1.4 * exp(-0.02 * (-0.5)) = e^{-0.03} * 1.4 * exp(0.01).</keep>
+- Paragraph 9, Sentence 2: <keep>This simplifies to 1.4 * exp(-0.02).</keep>
+- Paragraph 10, Sentence 1: <keep>Calculating exp(-0.02) ≈ 0.9802, the time-0 price ≈ 1.4 * 0.9802 ≈ 1.3723.</keep>
+- Paragraph 10, Sentence 2: <keep>Thus, the final answer is approximately 1.37.</keep>

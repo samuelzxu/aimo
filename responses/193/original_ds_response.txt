@@ -1,0 +1,405 @@
+Okay, so I have this problem about a spherical shell with a radius R, and it has a surface charge density that depends on the angle theta. The charge density is given by sigma(theta) = 4 cos(theta). The question is asking for the electric potential inside and outside the shell. The answer choices are given, so maybe I can figure this out step by step.
+
+First, I remember that when dealing with charge distributions on a sphere, especially ones that depend on angles (like theta), it's useful to use multipole expansions. The potential inside and outside a spherical shell can be expressed in terms of Legendre polynomials. Since the charge density here is proportional to cos(theta), which is the same as P_1(cos theta), where P_1 is the first Legendre polynomial, that probably means the monopole moment (total charge) and higher moments might come into play. But since cos(theta) is a dipole term, I need to check the monopole and dipole moments.
+
+Wait, let's go through this carefully. The surface charge density is sigma(theta) = 4 cos(theta). Let me calculate the total charge on the shell to check the monopole term. The total charge Q is the integral of sigma over the surface. For a sphere, the differential area element is R^2 sin(theta) dtheta dphi. So integrating sigma(theta) over the sphere:
+
+Q = ∫ sigma(theta) dA = ∫ (4 cos(theta)) * R^2 sin(theta) dtheta dphi
+
+Integrating over phi from 0 to 2pi, and theta from 0 to pi.
+
+First, integrate over phi: 2pi. Then over theta:
+
+Q = 4 R^2 * 2pi ∫ cos(theta) sin(theta) dtheta from 0 to pi
+
+Let me make substitution u = sin(theta), du = cos(theta) dtheta. Then the integral becomes ∫ u du from u=0 to u=0 (because at theta=0, sin(theta)=0; theta=pi, sin(theta)=0). Wait, hold on, sin(theta) at theta=pi is 0 as well. So the integral of u from 0 to 0 is zero. Therefore, total charge Q = 0.
+
+So the monopole moment (total charge) is zero. Therefore, the potential outside can't have a 1/r term. Then the next term would be dipole, which is 1/r^2. So maybe the potential inside is a constant or a linear function in r?
+
+But in general, for a spherical shell with charge distribution, the potential inside is given by the sum of terms r^l/(R^{l+1}) and outside by R^{l+2}/r^{l+1} multiplied by the spherical harmonics components. But in our case, since the charge distribution is proportional to P_1 (cos(theta)), so l=1. So inside the sphere, the potential should have terms proportional to r P_1(cos theta) and outside terms proportional to (R^3 / r^2) P_1(cos theta). 
+
+So for the inside potential phi_in: since there are no charges inside the shell, the potential inside should be a solution to Laplace's equation that's regular at the origin. So spherical harmonics with l=1, which is a term like r cos theta. Because general solution is sum over A_l r^l P_l (cos theta). But there are only l=1 terms due to the charge distribution. Because higher multipoles would come from higher order terms in sigma, but here sigma is only proportional to P_1. So maybe the potential inside is a constant times r cos theta.
+
+Similarly, outside, the potential should go as 1/r^2 times cos theta, since l=1. The coefficients would depend on the dipole moment.
+
+So to compute the dipole moment, right? The dipole moment p is given by integrating the charge distribution times r' (position vector), but since it's a surface charge, it would be p = ∫ r' sigma(r') dA.
+
+Since we're on a sphere of radius R, r' = R \hat{r}. So p = ∫ R \hat{r} sigma(theta) R^2 sin theta dtheta dphi.
+
+Expressed in spherical coordinates, \hat{r} can be converted into Cartesian coordinates, but the integrals would only retain the component along the z-axis because the charge distribution is symmetric around the z-axis (sigma depends only on theta). So the dipole moment vector will be along the z-axis.
+
+Calculating p_z:
+
+p_z = ∫ R * sigma(theta) * R^2 sin theta dtheta dphi * \hat{z} \cdot \hat{r}
+
+Wait, the dipole moment p = ∫ r' sigma(r') dA. So r' is the position vector of the charge element, which in spherical coordinates, is R \hat{r}. So the dipole moment is:
+
+p = R ∫ \hat{r} sigma(theta) R^2 sin theta dtheta dphi
+
+But \hat{r} in spherical coordinates is (sin theta cos phi, sin theta sin phi, cos theta). Therefore, sigma(theta) = 4 cos theta, so:
+
+p_x component: R ∫ [ sin theta cos phi ] * 4 cos theta * R^2 sin theta dtheta dphi
+
+Similarly, p_y: same but sin theta sin phi, and p_z: 4 cos theta R * R^2 ∫ cos theta sin theta dtheta dphi
+
+However, sigma(theta) = 4 cos theta, so sigma does not depend on phi. So the integration over phi for p_x and p_y will involve integrating cos phi and sin phi over 0 to 2pi, which are zero. So p_x = p_y = 0.
+
+For p_z:
+
+p_z = 4 R^3 ∫ cos theta * cos theta sin theta dtheta ∫ dphi
+
+∫ dphi from 0 to 2pi is 2pi.
+
+∫ cos^2 theta sin theta dtheta: Use substitution u = cos theta, du = - sin theta dtheta
+
+Then integral becomes ∫ u^2 (-du) from u=1 to u=-1, which is ∫ u^2 du from -1 to 1 ==> 2/3
+
+Therefore, p_z = 4 R^3 * 2pi * (2/3) ?
+
+Wait, wait.
+
+Wait. Let's recast:
+
+p_z = R * ∫ sigma(theta) * R^2 sin theta dtheta dphi * cos theta
+
+But sigma(theta) = 4 cos theta, so:
+
+p_z = R * ∫ (4 cos theta) * R^2 sin theta dtheta dphi * cos theta
+= 4 R^3 ∫ cos^2 theta sin theta dtheta ∫ dphi
+
+The phi integral is from 0 to 2pi, so that's 2pi. The theta integral is ∫ cos^2 theta sin theta dtheta from 0 to pi. Let u = cos theta, du = - sin theta dtheta. So:
+
+∫ cos^2 theta sin theta d theta = - ∫ u^2 du from u=1 to u=-1 = ∫ u^2 du from -1 to 1 = [u^3 /3]_{-1}^1 = (1/3 - (-1/3)) = 2/3
+
+Therefore, p_z = 4 R^3 * 2pi * (2/3)
+
+Wait, no. Wait, sigma(theta) is a surface charge density, so perhaps the entire multiplication is a bit different. Let me check this again.
+
+Earlier I represented the dipole moment p as p = ∫ r' sigma(r') dA, where dA is the surface element. Since we're on the sphere of radius R, r' = R \hat{r}, so:
+
+p = ∫ R \hat{r} sigma(theta) R^2 sin theta dtheta dphi
+
+Yes, that gives:
+
+p = R^3 ∫ \hat{r} sigma(theta) sin theta dtheta dphi
+
+But sigma(theta) = 4 cos theta. Then substituting:
+
+p = 4 R^3 ∫ \hat{r} cos theta sin theta dtheta dphi
+
+But \hat{r} expressed in Cartesian coordinates is (sin theta cos phi, sin theta sin phi, cos theta). Therefore, each Cartesian component:
+
+p_x = 4 R^3 ∫ sin theta cos phi cos theta sin theta dtheta dphi
+p_y = 4 R^3 ∫ sin theta sin phi cos theta sin theta dtheta dphi
+p_z = 4 R^3 ∫ cos theta * cos theta sin theta dtheta dphi
+
+Now, integrating over phi:
+
+For p_x and p_y, which involve integrals over cos phi and sin phi over 0 to 2pi:
+
+∫ cos phi dphi = 0, ∫ sin phi dphi = 0, hence p_x = p_y = 0.
+
+For p_z:
+
+p_z = 4 R^3 ∫ (cos theta)^2 sin theta dtheta ∫ dphi
+
+Which is:
+
+4 R^3 * 2pi * ∫_{0}^{pi} cos^2 theta sin theta d theta
+
+As before, compute the theta integral via substitution u = cos theta:
+
+sin theta d theta = - du, limits from 1 to -1. So integral becomes:
+
+∫_{-1}^{1} u^2 (-du) = ∫_{-1}^{1} u^2 du = [u^3/3]_{-1}^1 = (1/3 - (-1/3)) = 2/3
+
+Therefore, p_z = 4 R^3 * 2pi * (2/3) = (16/3) pi R^3
+
+Wait, but if the answer choices don't include pi, that might be an issue. Wait, perhaps I made a mistake here with units or a miscalculation.
+
+Wait, let's remember that in the potential due to a dipole, the dipole potential is given by (1/(4 pi epsilon0)) (p cos theta)/ r^2. But if in our calculation, the p_z here includes the factor from the charge distribution, but let's see:
+
+Wait. Another approach: The potential outside a dipole is (1/(4 pi epsilon0)) * (p cos theta)/r^2.
+
+Similarly, the potential inside, which for a shell with dipolar distribution, would be constant? No, wait. The potential inside should be linear in r, cos theta, as per the multipole expansion. For a spherical shell, the interior potential is (1/(4 pi epsilon0)) * (p cos theta)/(3 epsilon0 R^3) * r cos theta? Maybe not. Wait, need to think again.
+
+Wait. When we have a surface charge with sigma(theta) = sigma_1 cos theta, then the potential inside is uniform? Wait, no. Wait, for a pure dipole distribution, the potential inside the shell is constant. Because for a dipole, the field inside is constant? Hmm, I might be confusing things here.
+
+Wait, actually, when there is a surface charge distribution proportional to P_l (cos theta), then the potential inside the sphere is a solution to Laplace's equation that only includes terms of order r^l P_l (cos theta). Since in this case, the charge distribution is proportional to P_1 (cos theta) = cos theta, then the potential inside is of the form A r cos theta. While the potential outside is B cos theta / r^2.
+
+Therefore, phi_in = (A r cos theta)/epsilon0, and phi_out = (B cos theta)/(epsilon0 r^2). Then, to find A and B, we can use the boundary conditions. But maybe the dipole moment is related to these coefficients.
+
+But perhaps since we have a spherical shell, not a solid sphere, the coefficients can be related via the dipole moment.
+
+But maybe the easier way is to solve using expansion in Legendre polynomials.
+
+The general solution for potential inside a sphere (r < R) where surface charge is present is:
+
+phi_in(r) = sum_{l=0}^\infty A_l r^l P_l (cos theta)
+
+For outside (r > R), the potential is:
+
+phi_out(r) = sum_{l=0}^\infty B_l r^{-(l+1)} P_l (cos theta)
+
+Since the charge distribution is only on the shell, the potential must satisfy the discontinuity in the electric field at r = R, while the potential itself is continuous.
+
+Given that the surface charge density is sigma(theta) = 4 cos theta.
+
+The boundary conditions at r = R are:
+
+1. The potential is continuous: phi_in(R) = phi_out(R)
+
+2. The discontinuity in the electric field is sigma / epsilon0. The radial component of the electric field (the derivative of potential) has a discontinuity:
+
+- d phi_out / dr |_{r=R} + d phi_in / dr |_{r=R} = sigma(theta) / epsilon0
+
+Given that the charge distribution is only in the l=1 term, all other terms (l ≠1) must have their coefficients A_l and B_l zero except for l=1. Because sigma(theta) = 4 cos theta = 4 P_1(cos theta), so only the l=1 term contributes.
+
+Therefore, we can write:
+
+Inside: phi_in(r) = A_1 r P_1 (cos theta)
+Outside: phi_out(r) = B_1 r^{-2} P_1 (cos theta)
+
+Using P_1 (cos theta) = cos theta:
+
+phi_in(r) = A_1 r cos theta
+phi_out(r) = B_1 cos theta / r^2
+
+Now, apply boundary conditions. First, the potential must be continuous at r=R:
+
+A_1 R cos theta = B_1 cos theta / R^2
+
+Which implies:
+
+A_1 R = B_1 / R^2 => B_1 = A_1 R^3
+
+Second, the discontinuity in the electric field:
+
+The radial derivative of phi_in is d phi_in / dr = A_1 cos theta
+
+The radial derivative of phi_out is d phi_out / dr = -2 B_1 cos theta / r^3; evaluated at r=R, so it's -2 B_1 cos theta / R^3
+
+Thus, the discontinuity:
+
+- d phi_out / dr |_{R} + d phi_in / dr |_{R} = sigma(theta) / epsilon0
+
+Wait, actually, the correct boundary condition is:
+
+E_out(R+) - E_in(R-) = sigma(theta) / epsilon0
+
+But E is the negative gradient of phi. Therefore, E_r = - d phi/d r
+
+Therefore, E_out(R) - E_in(R) = sigma(theta)/epsilon0
+
+Which translates to:
+
+[- d phi_out/dr |_{R}] - [- d phi_in/dr |_{R}] = sigma(theta)/epsilon0
+
+So:
+
+- d phi_out / dr |_{R} + d phi_in/dr |_{R} = sigma(theta)/epsilon0
+
+Then, substituting in the derivatives:
+
+- (-2 B_1 cos theta / R^3 ) + A_1 cos theta = (4 cos theta)/epsilon0
+
+So:
+
+(2 B_1 cos theta / R^3 ) + A_1 cos theta = (4 cos theta)/epsilon0
+
+Dividing both sides by cos theta (assuming cos theta ≠ 0, but since equation must hold for all theta, except possibly where cos theta is zero, but as an identity:
+
+2 B_1 / R^3 + A_1 = 4 / epsilon0
+
+But we already know that B_1 = A_1 R^3 from the potential continuity.
+
+Substitute B_1:
+
+2 (A_1 R^3) / R^3 + A_1 = 4 / epsilon0
+
+Simplify:
+
+2 A_1 + A_1 = 4 / epsilon0 => 3 A_1 = 4 / epsilon0 => A_1 = 4 / (3 epsilon0)
+
+Therefore, B_1 = (4 / (3 epsilon0)) R^3
+
+Thus, phi_in(r) = (4 / (3 epsilon0)) r cos theta
+
+phi_out(r) = (4 R^3 / (3 epsilon0)) cos theta / r^2
+
+So looking at the choices:
+
+Option B says inside: (4 r / 3 epsilon0) cos theta, outside: (4 R^3 / (3 epsilon0 r^2)) cos theta. That matches.
+
+Wait, but another answer choice?
+
+Wait, let's see:
+
+A) Inside zero, outside: (2 R^3 / (3 eps0 r^2) sin theta
+
+Hmm, sin theta, no. Option B is inside with 4r/(3 eps0) cos theta, outside same. Option C is inside zero, outside 4 R^3/(3 eps0 r^2) cos theta. Hmm.
+
+But the calculation suggests that phi_in is (4r/(3 epsilon0)) cos theta, phi_out is (4 R^3/(3 epsilon0 r^2)) cos theta.
+
+Therefore, according to that, the correct answer is B. However, wait, maybe the surface charge calculation had an error. Let me re-examine sigma(theta) and integration.
+
+Wait, during the computation of the dipole moment, I found that the total charge was zero, so monopole term (which would have been a nonzero term only for l=0) is zero, so indeed only l=1 terms are present, consistent with the answer.
+
+But wait, another aspect. If the potential inside is a linear function of r, that suggests a uniform electric field inside? Since Electric field is the negative gradient, and phi = A r cos theta implies E_in = -grad phi = -A ( cos theta \hat{r} - sin theta \hat{theta} ), but in Cartesian terms, maybe it's equivalent to a uniform field along z.
+
+Wait, the presence of a dipole layer can cause a potential inside, but for a spherical shell with dipolar charge distribution, it's known that the potential inside is constant? Hmm. Wait, no.
+
+Wait, wait, my confusion. The potential inside might be analogous to a uniformly polarized sphere, where inside there's a uniform electric field. Wait, no. A uniformly polarized sphere has a uniform polarization, leading to bound surface charges. The fields inside are uniform, I think.
+
+Wait, but in our case, we have a spherical shell with a surface charge proportional to cos theta, similar to a dipole layer. Wait, for a dipole shell (double layer), the potential is discontinuous, but here we're dealing with a single layer (surface charge), so the potential is continuous, but the electric field has a discontinuity.
+
+But according to the calculation before, which is based on expanding the potential in terms of Legendre polynomials and satisfying boundary conditions at r=R, we obtained phi_in(r) proportional to r cos theta, implying the electric field is a constant vector pointing in the z direction.
+
+Wait, yes:
+
+If phi_in = (4 / (3 epsilon0)) r cos theta, then the electric field is E_in = - grad phi_in = - (4 / 3 epsilon0) ( cos theta \hat{r} - (1/r) sin theta r \hat{theta} )
+
+But in Cartesian coordinates, assuming phi_in = (4 / (3 epsilon0)) z, since r cos theta is z. Therefore, phi_in is linear in z. Therefore, the electric field is uniform: E_in = - (4 / 3 epsilon0) \hat{z}. So, uniform electric field inside.
+
+That makes sense. For a surface charge distribution which is dipolar, the resulting potential inside is a uniform electric field.
+
+For the exterior region, the potential is dipolar: phi_out ∝ cos theta / r^2. Which is expected for a dipole. So phi_out = (4 R^3 / (3 epsilon0 r^2)) cos theta, similar to that of a dipole with dipole moment p = (4/3) R^3 * ( 4 pi epsilon0 ? Wait, maybe here the units matter. Let me check the dipole moment p we calculated earlier. It had p_z = 4 R^3 * 2 pi * 2/3 = 16 pi R^3 /3. Then the standard dipole potential is (1/(4 pi epsilon0)) p cos theta / r^2. If you plug p then phi_out would be (1/(4 pi epsilon0)) * (16 pi R^3 / 3) cos theta /r^2 = (4 R^3 / (3 epsilon0)) cos theta / r^2, which matches our earlier result. Therefore, yeah, this matches. Therefore, that is correct. Then the answer B is the one where phi_in = (4 r/ 3 epsilon0) cos theta and phi_out is (4 R^3... cos theta. So, looking at Answer choices:
+
+B: phi_in = (4r / 3ε0) cos θ, phi_out = (4R3 / 3ε0 r2) cos θ
+
+That's matching with our result.
+
+Wait, but why does Answer C say phi_in =0? Did I do something wrong?
+
+Wait, is there a reason phi_in could be zero? If we believed incorrectly that inside a conductor or something? No, the shell is just a surface charge; there's no conductor here.
+
+Wait, another approach: Since the total charge is zero, and the charge distribution is a dipole, maybe inside the potential is a constant? But according to my calculation, it's phi_in proportional to r cos theta, which is a linear gradient.
+
+Alternatively, I recall that for a spherical shell with surface charge sigma( theta )=k cos theta, the potential inside is (k R / 3 epsilon_0 ) r cos theta, and outside is (k R^3 / 3 epsilon_0 ) ( cos theta / r^2 ). Let's check. If k were 4, that would be the same as this answer. Thus Answer B is correct.
+
+Alternatively, another miscalculation.
+
+Alternatively, if there's another approach: using image charges. But challenging.
+
+Wait, the Laplace equation solutions: since the charge is on the shell, the potential inside should be a linear function (dipole), and the outside should be dipolar field.
+
+Alternatively, maybe Answer C: phi_in = 0 and outside?
+
+But according to our derivation, phi_in is linear in r, which depends on the solution. If someone considered that because charge is only on the surface, the potential inside is a constant. Well, the charge is a dipole, which isn't the case. If the charge distribution were spherically symmetric with net charge zero, then potential inside depends. But in this case, it's a dipole distribution.
+
+Wait, but if you imagine the potential inside a spherical shell with dipole surface charge, would the potential be a constant?
+
+Wait, wait, another way: Because it's a conducting shell with induced charges. No, the problem states it's a shell with charge distribution fixed as sigma(theta)=4 cos theta. It's not a conductor. If it was a conductor, charges would redistribute. No, the assumption here is that it's a thin shell with charge density given.
+
+In that case, then the potential inside can indeed be as our calculation.
+
+But let's check another thing. If you take r=0, the potential as per phi_in would be zero? Because it's proportional to r. But Answer C says phi_in =0, but our solution is phi_in= (4 r / 3 ε0 ) cos theta. So Phi_in is zero only at r=0, but otherwise varies. However, potential is in general only defined up to a constant, but no.
+
+No, wait, no. When we solve for the potential using separation of variables and accounting for the presence of charges, we need to correctly satisfy the boundary conditions. If indeed the dipole term is non-zero, then phi_in is not zero.
+
+Therefore, why is Answer C provided as an option where phi_in is zero? Maybe in the surface charge distribution, there's a mistake?
+
+Wait, perhaps the problem's sigma is 4 cos theta in coulombs per square meter, so dimension check.
+
+Regardless.
+
+Wait, but let's note that Answer B inside is (4 r / 3 ε0 ) cos theta, so the potential increases with r, linearly.
+
+Another approach: integrating the potential directly due to the surface charge. But integrating the potential over the sphere could be tricky, but knowing the answer is multipole expansion with dipole, perhaps.
+
+Alternatively, considering symmetry.
+
+Given that the charge distribution is anti-symmetric about theta = pi/2, since cos(theta) is positive in the upper hemisphere and negative in the lower. So, the charge distribution resembles a dipole; positive charges on the top, negative on the bottom. So the field inside would be uniform, pointing downward (negative z), and the potential should decrease going upwards. Wait, phi_in is proportional to z, but E is the negative gradient; so E points in -z direction, i.e., from positive charges at top to negative at bottom.
+
+Therefore, if the potentials are phi_in= (4 r cos theta)/(3 epsilon0), that is (4 z)/(3 epsilon0). Then E_in is -d/dz phi_in = -4/(3 epsilon_0) \hat{z}, which is downward.
+
+But the answers A and D have sin theta dependence, which are likely not.
+
+Hence, with Answer B and C as possible: B and C are for the phi_out. Both have same expression except for B:phi_in is proportional to cos theta, C:phi_in =0.
+
+Wait, where am I going wrong here. But the calculation steps before, with l=1 term, and the coefficients matching, leading to Answer B. But Answer C has phi_in=0. So there must be some mistake. Perhaps I made an error in the calculation of the discontinuity.
+
+Wait, let's check boundary conditions again.
+
+The parameters are:
+
+phi_in(r) = A r cos theta
+
+phi_out(r) = B cos theta / r^2
+
+At r=R:
+
+phi_in(R) = A R cos theta
+
+phi_out(R) = B cos theta / R^2
+
+To have phi continuous:
+
+A R = B / R^2 => B = A R^3
+
+Now the discontinuity in E_r:
+
+Inside, E_r = - d phi_in/dr = -A cos theta
+
+Outside, E_r = - d phi_out/dr = 2 B cos theta / r^3
+
+At r=R: E_r,out - E_r,in = sigma(theta)/epsilon0
+
+wait, the normal component (radial) of E jumps by sigma / epsilon0. As above:
+
+Delta E_r = E_r,out - E_r,in = sigma / epsilon0
+
+But since:
+
+E_r,out = 2 B cos theta / R^3
+
+E_r,in = -A cos theta
+
+Thus:
+
+(2 B / R^3) cos theta - (-A cos theta) = 4 cos(theta)/ epsilon0
+
+So:
+
+[2 B / R^3 + A ] cos theta = (4 / epsilon0 ) cos theta
+
+Thus:
+
+2 B / R^3 + A = 4 / epsilon0
+
+But since B = A R^3,
+
+2 A R^3 / R^3 + A = 3 A = 4 / epsilon0 => A= 4/(3 epsilon0 )
+
+So continuing it:
+
+That's correct. Then A is 4 over (3 epsilon0 ), and B is 4 R^3 over (3 epsilon0 )
+
+So potential inside is phi_in= (4/(3 epsilon0 )) r cos theta
+
+Outside is phi_out = (4 R^3 / (3 epsilon0 )) cos theta / r^2
+
+Which is Answer choice B: phi_in=(4r / 3ε0)cosθ, phi_out=(4R3 / 3ε0 r2)cosθ
+
+But why is Answer C presented, with phi_in=0 and phi_out same?
+
+If phi_in were zero, it would imply that the entire interior has no potential variation, but that conflicts with the charge distribution which is angular-dependent. If the potential inside is zero, that would suggest no electric field, but then the discontinuity at the shell would require that the outer jump accounts for all the charge, but l=1 terms. Not really.
+
+Alternatively, if I considered the problem is a conductor, but the question says charges are distributed on a shell, vacuum inside and out. So conductor concept need not apply.
+
+Therefore, probably Answer B is correct. But why is Answer C included?
+
+Looking at Answer B and Answer C. If Answer C has phi_in=0. Maybe my approach was incorrect. Maybe I neglected that the shell has charges only on the surface, so according to Gauss's law, the potential inside a spherical shell with charge is Q/(4 pi epsilon0 R), but since Q=0 (as total charge is zero), phi_in would be zero?
+
+Wait, that logic applies to a spherically symmetric shell. If the sphere has spherically symmetric charge, the potential inside is constant, but if it has polar asymmetry, such as this dipole distribution, then the potential need not be constant. As we found using the multipole expansion, it varies with r cos theta.
+
+Hence, in this non-symmetric case, even though the total charge is zero, the potential isn't zero inside. It only applies for spherically symmetric cases.
+
+Therefore, answer B.
+
+But considering various levels of confusion.
+
+
+**Final Answer**
+
+\boxed{B}

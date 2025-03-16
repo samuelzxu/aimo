@@ -1,0 +1,48 @@
+<think>
+Alright, let me try to figure out how to approach this problem. The question is asking for the number of positive integers n less than 2017 such that the given expression is an integer. The expression is a sum of terms up to n^6 over 6!. 
+
+First, I need to analyze the expression. The denominators are factorials up to 6!, which is 720. So, if we multiply the entire expression by 720, each term will become an integer. That simplifies the problem to checking whether the polynomial n^6 + 6n^5 + 30n^4 + 120n^3 + 360n^2 + 720n + 720 is divisible by 720. 
+
+But wait, the constant term 720 and the term with 720n are already divisible by 720. So, the problem reduces to checking if the remaining part, n^6 + 6n^5 + 30n^4 + 120n^3 + 360n^2, is divisible by 720. 
+
+Since 720 factors into 16 * 9 * 5, we need to ensure the polynomial is divisible by 16, 9, and 5. 
+
+Let me break it down modulo 16, 9, and 5 separately. 
+
+Starting with modulo 16. Simplifying the polynomial modulo 16, we find that n must be even. For modulo 9, simplifying shows that n must be divisible by 3. For modulo 5, the polynomial modulo 5 reduces to n(n+1), meaning n must be 0 or 4 modulo 5. 
+
+Combining these conditions using the Chinese Remainder Theorem, n must be divisible by 6 (since it's even and divisible by 3) and also be either 0 or 4 modulo 5. 
+
+This translates to numbers congruent to 0 or 24 modulo 30 (since 30 is the LCM of 6 and 5). Counting such numbers less than 2017 gives 67 numbers in each congruence class, totaling 134. 
+
+After verifying that these conditions hold and confirming the count, the final answer is 134.
+</think>
+
+- Paragraph 2, Sentence 2: <keep>the sum must be an integer</keep>
+- Paragraph 3, Sentence 1: <keep>\[ S(n) = 1 + \frac{n}{1!} + \frac{n^2}{2!} + \frac{n^3}{3!} + \frac{n^4}{4!} + \frac{n^5}{5!} + \frac{n^6}{6!} \]</keep>
+- Paragraph 4, Sentence 1: <keep>720 * S(n) = 720*1 + 720*n + 720*n^2/2! + ... + 720*n^6/6!</keep>
+- Paragraph 4, Sentence 4: <keep>720 * S(n) = n^6 + 6n^5 + 30n^4 + 120n^3 + 360n^2 + 720n + 720</keep>
+- Paragraph 5, Sentence 1: <keep>n^6 + 6n^5 + 30n^4 + 120n^3 + 360n^2 + 720n + 720 ≡ 0 mod 720</keep>
+- Paragraph 6, Sentence 1: <keep>720 = 2^4 * 3^2 * 5</keep>
+- Paragraph 6, Sentence 2: <keep>divisible by 16, 9, and 5</keep>
+- Paragraph 8, Sentence 1: <keep>n^2(n^4 + 6n^3 + 30n^2 + 120n + 360) ≡ 0 mod 720</keep>
+- Paragraph 9, Sentence 1: <keep>Modulo 16: n^2(n^4 + 6n^3 + 14n^2 + 8n + 8) ≡ 0 mod 16</keep>
+- Paragraph 11, Sentence 1: <keep>Either n^2 ≡0 mod16, i.e., n≡0 mod4, or Q(n) ≡0 mod16</keep>
+- Paragraph 13, Sentence 1: <keep>For n=2, Q(2)≡0 mod16</keep>
+- Paragraph 13, Sentence 2: <keep>For n=6, Q(6)≡0 mod16</keep>
+- Paragraph 13, Sentence 3: <keep>For n=10, Q(10)≡0 mod16</keep>
+- Paragraph 13, Sentence 4: <keep>For n=14, Q(14)≡0 mod16</keep>
+- Paragraph 14, Sentence 1: <keep>Q(n)≡0 mod16 when n≡2,6,10,14 mod16</keep>
+- Paragraph 15, Sentence 1: <keep>n≡0 mod2</keep>
+- Paragraph 16, Sentence 1: <keep>Modulo9: n^3(n^3 +6n^2 +3n +3) ≡0 mod9</keep>
+- Paragraph 17, Sentence 1: <keep>n≡0 mod3</keep>
+- Paragraph 18, Sentence 1: <keep>Modulo5: n^5(n +1)≡0 mod5</keep>
+- Paragraph 19, Sentence 1: <keep>n≡0 or4 mod5</keep>
+- Paragraph 21, Sentence 1: <keep>n must be even, divisible by3, and n≡0 or4 mod5</keep>
+- Paragraph 22, Sentence 1: <keep>numbers divisible by6 and either 0 or4 mod5</keep>
+- Paragraph 23, Sentence 1: <keep>solutions are n=30m or n=30m +24</keep>
+- Paragraph 24, Sentence 1: <keep>n=30m: 67 terms</keep>
+- Paragraph 24, Sentence 2: <keep>n=30m +24:67 terms</keep>
+- Paragraph 25, Sentence 1: <keep>total solutions are134</keep>
+
+\boxed{134}

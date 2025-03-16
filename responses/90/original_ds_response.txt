@@ -1,0 +1,634 @@
+Alright, so I have this problem here: I need to find the smallest positive integer A that has an odd number of digits. Both A and the number B, which is created by removing the middle digit of A, must be divisible by 2018. Hmm, okay. Let me try to break this down step by step.
+
+First, since A has an odd number of digits, let's denote the number of digits as 2k + 1 for some non-negative integer k. Then, when we remove the middle digit, we're left with a number B that has 2k digits. So, if A is, say, a 3-digit number (which is odd), then B would be a 2-digit number. But since 3 is the smallest odd number of digits, but since 2018 is a 4-digit number, the number A must be at least 4 digits. Wait, but the problem states that A has an odd number of digits. So the possible number of digits for A would be 5, 7, 9, etc., since 3 might be too small (as 2018 itself is 4 digits). Wait, let me think again.
+
+Wait, hold on. 2018 is a 4-digit number, so A must be a multiple of 2018, so A must be at least 2018. However, A must have an odd number of digits. So the next possible number after 2018 with an odd number of digits would be 10000 (which is 5 digits). Wait, but 10000 is 5 digits, right? So perhaps the number of digits for A is at least 5? But let me check how many digits 2018 has. 2018 is a 4-digit number. So if A is a multiple of 2018, the smallest A could be is 2018 itself. But 2018 has 4 digits, which is even. The problem requires A to have an odd number of digits, so the next multiple of 2018 would be 4036, which is still 4 digits. Then, continuing, 6054, 8072, 10090—wait, 10090 is 5 digits. So, 10090 is a 5-digit number. So that's a possible candidate. But let me check the problem again.
+
+Wait, the problem says that when you remove the middle digit from A, you get B. For A with an odd number of digits, the middle digit is uniquely defined. For example, a 5-digit number has the third digit as the middle digit. So removing that third digit would leave a 4-digit number B. So, B is formed by the first two digits and the last two digits.
+
+Now, both A and B must be divisible by 2018. So for example, if we take A as 10090 (5 digits), the middle digit is the third digit, which is 0. Removing that 0 would result in B being 1090. Is 1090 divisible by 2018? Let's check: 2018 × 0.54 ≈ 1090. 2018 × 0.5 = 1009, so 2018 × 0.5 = 1009, so 2018 × 0.54 would be 1009 + (0.04×2018) = 1009 + 80.72 = 1089.72, which is approximately 1090. But 1090 isn't exactly divisible by 2018. 2018×0.5 is 1009, and 2018×0.6 is 1210.8. So 1090 is between these, so not divisible. So 10090's B is 1090, which is not divisible by 2018. So that's not a valid candidate.
+
+Therefore, the next multiple is 2018×6=12108. But 12108 is 5 digits. The middle digit is the third one, which is 1. Removing that gives B as 1208. Check if 1208 is divisible by 2018: 2018×0.6≈1210.8, so 1208 is 2 less than 1210.8, which isn't exact. So also not divisible.
+
+Continuing, 2018×7=14126. Middle digit is the third digit, which is 1. Removing gives B=1426. 1426 divided by 2018: 2018×0.7=1412.6, so 1426 is higher, but still not divisible. Not an integer multiple.
+
+Hmm, this seems tedious. Maybe going through each multiple of 2018 that has an odd number of digits and checking if B is also a multiple is not efficient. There must be a smarter way.
+
+Let me formalize the problem. Suppose A is a number with 2k + 1 digits. Let me write A as a concatenation of three parts: the first k digits, the middle digit, and the last k digits. So if A is written as D1D2...D_{k}MD_{k+2}...D_{2k+1}, then the middle digit is M. Then removing the middle digit gives B, which is D1D2...D_{k}D_{k+2}...D_{2k+1} concatenated together, forming a 2k-digit number.
+
+So mathematical representation:
+
+Let’s define A = N * 10^{k+1} + M * 10^{k} + L, where N is the number formed by the first k digits, M is the middle digit (0 ≤ M ≤ 9), and L is the number formed by the last k digits. Then, removing the middle digit gives B = N * 10^{k} + L.
+
+Given that both A and B must be divisible by 2018, so:
+
+A ≡ 0 mod 2018
+
+B ≡ 0 mod 2018
+
+So we have:
+
+N * 10^{k+1} + M * 10^{k} + L ≡ 0 mod 2018
+
+and
+
+N * 10^{k} + L ≡ 0 mod 2018
+
+Let’s subtract the two congruences:
+
+[ N * 10^{k+1} + M * 10^{k} + L ] - [ N * 10^{k} + L ] ≡ 0 mod 2018
+
+Simplifying:
+
+N * (10^{k+1} - 10^{k}) + M * 10^{k} ≡ 0 mod 2018
+
+Factor out 10^{k}:
+
+N * 10^{k} * (10 - 1) + M * 10^{k} ≡ 0 mod 2018
+
+Which simplifies to:
+
+10^{k} * (9N + M) ≡ 0 mod 2018
+
+Thus,
+
+10^{k} * (9N + M) ≡ 0 mod 2018
+
+But since 10^{k} and 2018 may share some common factors. Let me compute gcd(10^{k}, 2018). First, factorize 2018:
+
+2018 = 2 * 1009
+
+1009 is a prime number, right? Yes, I recall that 1009 is prime. So the prime factors of 2018 are 2 and 1009. Since 10^{k} is divisible by 2 but not by 1009 (since 10 and 1009 are coprime, as 1009 is a prime not dividing 10). So gcd(10^{k}, 2018) = 2.
+
+Therefore, 10^{k} * (9N + M) ≡ 0 mod 2*1009
+
+Hence, since gcd(10^{k}, 1009)=1, then 10^{k} and 1009 are coprime. Therefore, for the congruence to hold, we need:
+
+(9N + M) ≡ 0 mod (2018 / gcd(10^{k},2018)) ) => Wait, perhaps better to split the modulo:
+
+10^{k}*(9N + M) ≡ 0 mod 2 and mod 1009.
+
+Since 10^{k} is divisible by 2, the first congruence is automatically satisfied. For modulo 1009:
+
+10^{k}*(9N + M) ≡ 0 mod 1009
+
+Since 10^{k} and 1009 are coprime (as 1009 doesn't divide 10 and is prime), we can multiply both sides by the inverse of 10^{k} modulo 1009. Therefore:
+
+9N + M ≡ 0 mod 1009
+
+So, 9N + M ≡ 0 mod 1009. So this gives us a relationship between N and M. Note that M is a single digit (0-9), so 0 ≤ M ≤ 9.
+
+Additionally, from the second equation B ≡ 0 mod 2018, which is N * 10^{k} + L ≡ 0 mod 2018.
+
+But we also have A ≡ 0 mod 2018, which is N*10^{k+1} + M*10^{k} + L ≡ 0 mod 2018.
+
+So perhaps using both equations we can relate N, L, and M.
+
+But let's start with 9N + M ≡ 0 mod 1009. Given that M is between 0 and 9, inclusive, we can express this as:
+
+M ≡ -9N mod 1009
+
+But since M is between 0 and 9, -9N mod 1009 must be equal to some M in 0 to 9.
+
+So, for each k, we need to solve 9N ≡ -M mod 1009, where 0 ≤ M ≤ 9.
+
+Alternatively, given that M is a digit, for each possible M, 9N ≡ -M mod 1009.
+
+Therefore, for each M from 0 to 9, we can express this as N ≡ (-M)/9 mod 1009.
+
+But 9 must have a modular inverse modulo 1009. Since 9 and 1009 are coprime (as 1009 is prime and not dividing 3). The inverse of 9 modulo 1009 can be found.
+
+Compute inverse of 9 mod 1009:
+
+We need some integer x such that 9x ≡ 1 mod 1009.
+
+Using Extended Euclidean Algorithm:
+
+1009 = 9*112 + 1
+
+So 1 = 1009 - 9*112
+
+Therefore, -112*9 ≡ 1 mod 1009, so the inverse of 9 is -112 mod 1009, which is 1009 - 112 = 897.
+
+Check: 9*897 = 8073; compute 8073 ÷1009: 1009*8=8072, so 8073 = 1009*8 +1. Thus 9*897 ≡1 mod 1009. Correct.
+
+So inverse of 9 modulo 1009 is 897.
+
+Thus, N ≡ (-M)*897 mod 1009.
+
+Therefore, N ≡ -897M mod 1009.
+
+Therefore, for each M from 0 to 9, there's a corresponding N ≡ -897M mod 1009.
+
+But N is the first k digits of A, so depending on the value of k, N can be up to 10^{k} -1. But N must also be such that when multiplied by 10^{k} and added to L (the last k digits), we get B, which is also divisible by 2018. Hmm, this is getting a bit complicated. Let's focus on k.
+
+Given that A has 2k+1 digits. So for the case when A has the least number of digits, perhaps let's start with k=2, which gives 5 digits for A. So let's check if a 5-digit number can satisfy the conditions.
+
+Case k=2 (5-digit number A):
+
+For k=2:
+
+We need to compute:
+
+From before:
+
+9N + M ≡ 0 mod 1009 (since N is the first 2 digits, M is the middle digit). Wait, N is the first k=2 digits. Wait no: hold on. Wait, for a 5-digit number: D1 D2 M D4 D5.
+
+N would be the first 2 digits, L would be the last 2 digits. So B is D1 D2 D4 D5, which is N * 100 + L.
+
+Similarly, A is N*1000 + M*100 + L.
+
+Therefore, A ≡ 0 mod 2018 and B ≡0 mod 2018.
+
+From earlier equations:
+
+9N + M ≡0 mod 1009
+
+So, 9N + M ≡0 mod 1009. So given that M is between 0 and 9, we need 9N ≡ -M mod 1009. Thus for each M, N must ≡ (-M)*897 mod 1009.
+
+Given that N is a 2-digit number. Because when k=2, N is the first two digits. Wait, but N can be up to 99 (since it's two digits). Therefore, N is between 0 and 99. But if N is modulo 1009, then we need to find integers N in 0-99 such that N ≡ (-M)*897 mod 1009.
+
+However, 897*M is going to be pretty big for M=0 to 9, even modulo 1009. Let's compute N for each M:
+
+For M from 0 to 9:
+
+Compute N ≡ (-M *897) mod 1009.
+
+But since -M*897 mod 1009 is equivalent to (1009 - (M*897 mod 1009)).
+
+But let's compute this for each M:
+
+Let’s compute 897*M mod 1009 for M=0 to 9.
+
+First, 897 ≡ -112 mod 1009 (since 897 + 112 = 1009), so 897 ≡ -112 mod 1009. So 897*M ≡ -112*M mod 1009.
+
+Therefore, N ≡ -(-112*M) mod 1009 => N ≡ 112*M mod 1009.
+
+Ah, this might be easier. Wait:
+
+Wait:
+
+N ≡ (-M * 897) mod 1009
+
+But 897 ≡ -112 mod 1009, so:
+
+N ≡ (-M * (-112)) mod 1009 ≡ 112*M mod 1009.
+
+Therefore, N ≡ 112*M mod 1009.
+
+But N must be a number such that when we take the first two digits of A (which is N), and M is a digit from 0 to 9, we must have N in 00 to 99 (since k=2, leading zeros are allowed? Wait, no, N is the first two digits, so it can't have leading zeros unless the entire number A starts with zeros, which isn't allowed. Wait, A is a positive integer, so N must be between 10 and 99 if k=2 (because A is a 5-digit number, so starting digits can't be zero). Wait, actually, a 5-digit number has first digit non-zero, so N is a two-digit number from 10 to 99.
+
+But according to N ≡ 112*M mod 1009, with N between 10 and 99. So M ranges from 0 to 9, but given that A is a 5-digit number, starting with N from 10 to 99, can the first digit be non-zero? Yes, so let's check for each M from 0 to 9 what N is:
+
+For M=0:
+
+N ≡ 112*0 ≡ 0 mod 1009. But N=0, but that would make the first two digits 00, which would make A a 5-digit number starting with 00, which is invalid. So M=0 is impossible.
+
+M=1:
+
+N ≡ 112*1 = 112 mod 1009. 112 is under 1009, so N=112, but N must be a 2-digit number (10-99). 112 is a 3-digit number. Not allowed. So invalid.
+
+M=2:
+
+N≡112*2=224 mod 1009. 224 is a 3-digit number. Invalid.
+
+M=3:
+
+N≡112*3=336. Also 3 digits. Invalid.
+
+M=4:
+
+N≡112*4=448. Three digits. Invalid.
+
+M=5:
+
+112*5=560. Three digits.
+
+M=6:
+
+112*6=672. Three digits.
+
+M=7:
+
+112*7=784. Three digits.
+
+M=8:
+
+112*8=896. Three digits.
+
+M=9:
+
+112*9=1008 mod 1009. 1008 mod 1009 is 1008, which is also a 4-digit number? Wait, no. Wait 1008 is a four-digit number. Wait, no, 1008 is a 4-digit number. But N is supposed to be two digits. So all values of M=1 to 9 lead to N being 3 or 4 digits, which is invalid for k=2. That means with k=2 (5-digit A), there are no solutions. Therefore, a 5-digit A is impossible.
+
+Therefore, we need to try the next possible number of digits, which is 7 (k=3). Let's proceed with that.
+
+Case k=3 (7-digit number A):
+
+Then, A is a 7-digit number, structured as D1 D2 D3 M D5 D6 D7. Removing the middle digit M gives B, which is D1 D2 D3 D5 D6 D7, a 6-digit number. So N is the first 3 digits (D1 D2 D3) and L is the last 3 digits (D5 D6 D7). Let's formalize:
+
+A = N * 10^4 + M * 10^3 + L
+
+B = N * 10^3 + L
+
+Both A and B must be divisible by 2018.
+
+From before, using the equations:
+
+From B ≡0 mod 2018: N*10^3 + L ≡0 mod 2018
+
+From A ≡0 mod 2018: N*10^4 + M*10^3 + L ≡0 mod 2018
+
+Subtracting the equations gives N*10^4 + M*10^3 + L - (N*10^3 + L) ≡0 mod 2018 ⇒ N*10^3*(10 -1 ) + M*10^3 ≡0 mod 2018 ⇒ 10^3*(9N + M) ≡0 mod2018
+
+As before, since gcd(10^3,2018)= gcd(1000,2018)=2, then 10^3=1000 shares a factor of 2 with 2018=2*1009. Therefore:
+
+We have 10^3*(9N + M) ≡0 mod2*1009 ⇒ 2*(500)*(9N + M) ≡0 mod2*1009 ⇒ 500*(9N + M)≡0 mod1009. Since 1009 is prime and 500 and 1009 are coprime (because 1009 is prime, and 1009 doesn't divide 500). Therefore, to have 500*(9N + M) ≡0 mod1009, this implies that (9N + M) ≡0 mod1009.
+
+Therefore, same conclusion as before: 9N + M ≡0 mod1009. Where N is now the first 3 digits of A (with k=3, so N is a 3-digit number from 100 to 999, since A is a 7-digit number), and M is a digit from 0 to9.
+
+So again, 9N + M ≡0 mod1009 ⇒ M≡ -9N mod1009.
+
+But since M is a single digit, then (-9N) mod1009 must be between 0 and 9.
+
+Therefore, 9N ≡ -M mod1009 ⇒ similar to before, we have N ≡ (-M)/9 mod1009. Since inverse of 9 mod1009 is 897, so N≡-M*897 mod1009. Therefore, N≡ (-M*897) mod1009.
+
+Therefore, for M from 0 to 9:
+
+Compute N≡( -897*M ) mod1009. Note that 897 is equivalent to -112 mod1009 (since 897 + 112 =1009). Hence, N≡112*M mod1009.
+
+But N must be a 3-digit number (since k=3, the first three digits cannot be less than 100, as A is a 7-digit number). Wait, but if N is the first three digits, leading zeros are not allowed. Wait, but A is a 7-digit number, which must start with a non-zero digit, hence N must be from 100 to 999.
+
+So, for each M in 0 to9, compute N= (112*M) mod1009, and check whether N is a 3-digit number (i.e., between 100 and 999). Otherwise, maybe multiple cycles?
+
+Wait, mod 1009, so values can range from 0 to 1008. So N can be in that range. So let's compute for M from 0 to 9:
+
+For M=0:
+
+N=112*0=0 mod1009. N=0, which would be invalid (three-digit number cannot be 000). So M=0 is invalid.
+
+For M=1:
+
+112*1=112. So N=112. That's a three-digit number, 112. Valid.
+
+Check: 9N + M=9*112 +1=1009≡0 mod1009. Perfect.
+
+Similarly for other M:
+
+M=1:
+
+N=112*1=112.
+
+Check 9*112 +1=1008 +1=1009≡0 mod1009.
+
+So works. So when M=1, N=112. So A is 112 (N=112) followed by M=1, then the last three digits L. Then B is 112 followed by L, which together make a 6-digit number 112L. Both A and B must be divisible by2018. So, let's formalize:
+
+A=112*10^4 +1*10^3 + L=1120000 +1000 + L=1121000 + L.
+
+But A must be 1121 followed by L, where L is three digits. Wait, actually, N=112, M=1, L= D5 D6 D7 (the last three digits). So A=1121L (concatenation). So as a number, A=112*10^4 +1*10^3 + L. Similarly, B is 112 followed by L, which is 112*10^3 + L. So A is 7-digit, B is 6-digit.
+
+Given that A=112*10000 + 1000 + L=1121000 + L. Then:
+
+A ≡ 0 mod2018
+
+B=112*1000 + L=112000 + L ≡0 mod2018
+
+Therefore, both A=1121000 + L and B=112000 + L should be divisible by2018.
+
+But let's write these equations:
+
+From B ≡0 mod2018:
+
+Let’s compute 112000 mod2018. Then L ≡ (-112000) mod2018.
+
+First, compute 112000 divided by 2018. 2018*50=100,900. 112,000 -100,900=11,100. Then 2018*5=10,090. So 11,100 -10,090=1,010. 1,010 is less than 2018. Thus 112,000=2018*55 +1,010. Therefore, 112000≡1010 mod2018. Therefore, 112000 + L ≡0 mod2018 ⇒ L ≡-1010 mod2018. Since L is a three-digit number, L=2018 -1010=1008. So L=1008. But 1008 is a four-digit number. However, L must be three digits. So this is invalid.
+
+Wait, so L must satisfy L ≡-1010 mod2018, but L is three digits (000 to 999). Let's compute -1010 mod2018. Since -1010 +2018=1008. So L≡1008 mod2018. But 1008 is less than 2018, so the only possibility is L=1008. But L must be three digits, so 1008 is a four-digit number. Not allowed. Therefore, M=1 gives L=1008, which is not possible. Hence, invalid.
+
+So, M=1: Invalid.
+
+Proceeding to M=2:
+
+N=112*2=224 mod1009. N=224. A three-digit number, so valid.
+
+Check 9*224 +2=2016 +2=2018≡0 mod1009. Since 2018 is exactly 2*1009. Wait, wait, 2018=2*1009, so 2018≡0 mod1009? No, modulo 1009, 2018=2*1009≡0. So yes, 2018≡0 mod1009. Correct.
+
+But how come?
+
+Actually, mod1009: 2018 is equivalent to 2018-2*1009=0. So yes, 2018≡0 mod1009. Therefore, that congruence holds. But moving on, similar to before:
+
+For M=2, N=224, so A=224M... But let's write A as:
+
+A=224*10^4 +2*10^3 + L=2,240,000 + 2,000 + L=2,242,000 + L
+
+B=224*10^3 + L=224,000 + L
+
+Again, B=224,000 + L ≡0 mod2018
+
+Compute 224,000 mod2018. Let's divide 224,000 by2018.
+
+2018*100=201,800. 224,000 -201,800=22,200
+
+2018*10=20,180. 22,200-20,180=2,020
+
+2018*1=2018. 2,020-2018=2. Thus, 224,000≡2 mod2018.
+
+So, L ≡-2 mod2018. Since L is three digits, L=2016.
+
+But 2016 is four digits. Invalid. So no solution here.
+
+M=2: invalid.
+
+For M=3:
+
+N=112*3=336 mod1009. 336 is three digits. Check:
+
+9*336 +3=3,024 +3=3,027. 3,027 divided by1009: 3*1009=3,027. So yes, 3,027≡0 mod1009. Perfect.
+
+Then, A=336*10^4 +3*10^3 +L=3,360,000 +3,000 +L=3,363,000 + L
+
+B=336*10^3 +L=336,000 + L. Hence, B should be divisible by2018.
+
+Calculate 336,000 mod2018:
+
+Similarly, as before, let's compute how many times 2018 goes into 336,000:
+
+Compute 2018*166=2018*(160+6)=2018*160=322,880; 2018*6=12,108. Total=322,880 +12,108=334,988.
+
+336,000 -334,988=1,012. Therefore, 336,000≡1,012 mod2018.
+
+Thus, L≡-1,012 mod2018. Therefore, L=2018 -1,012=1,006. L=1006 which is four digits. Invalid. So no solution.
+
+Similarly, for M=4:
+
+N=112*4=448. Check 9*448 +4=4,032 +4=4,036. 4,036÷1009=4*1009=4,036. Thus, 4,036≡0 mod1009.
+
+Therefore, A=448*10^4 +4*10^3 +L=4,480,000 +4,000 +L=4,484,000 + L.
+
+B=448*10^3 + L=448,000 + L. Compute 448,000 mod2018:
+
+Calculate 2018*222=2018*(220 +2)=2018*220=443,960; 2018*2=4,036; total=443,960 +4,036=448, - 443,960+4,036=448,000?
+
+Wait, 2018*222=2018*(200 +22)=2018*200=403,600 +2018*22=44,396. So total 403,600 +44,396=448, - oops 403,600 +44,396=448, 0? Wait 403,600 +44,396=448, 0? Let's compute 403,600 +40,000=443,600. 443,600 +4,396=448, 0?
+
+Wait 403,600 +44,396: 400,000 +40,000=440,000; 3,600 +4,396=8,000-44=7, 956. So total 440,000 +7,956=447,956. Therefore, 2018*222=447,956. Therefore, 448,000 -447,956=44. Thus 448,000 ≡44 mod2018. Hence, L ≡-44 mod2018. So L=2018 -44=1974. But L must be three digits. 1974 is four digits. Invalid.
+
+Hence, no solution.
+
+Proceeding for M=5:
+
+N=112*5=560. Check 9*560 +5=5,040 +5=5,045. 5,045 ÷1009=5*1009=5,045. So yes, 5,045=5*1009≡0 mod1009.
+
+Hence, A=560*10,000 +5*1,000 + L=5,600,000 +5,000 +L=5,605,000 + L.
+
+B=560*1,000 +L=560,000 +L. Compute 560,000 mod2018:
+
+Let’s calculate:
+
+2018*277=2018*(200 +70 +7)=2018*200=403,600; 2018*70=141,260; 2018*7=14,126. Total=403,600 +141,260=544,860 +14,126=558,986. Then 560,000 -558,986=1,014. Hence, 560,000≡1,014 mod2018. Therefore, L≡-1,014 mod2018⇒L=2018-1,014=1,004. L=1004 is four digits. Invalid.
+
+M=5 no solution.
+
+M=6:
+
+N=112*6=672. Check 9*672 +6=6,048 +6=6,054≡0 mod1009? Let’s compute 6,054 ÷1009:
+
+1009*6=6,054. Thus, yes. 6,054=6*1009≡0 mod1009.
+
+So A=672*10,000 +6*1,000 + L=6,720,000 +6,000 +L=6,726,000 +L. B=672*1,000 +L=672,000 + L. Computing 672,000 mod2018:
+
+Compute 2018*333=2018*(300+33)=2018*300=605,400; 2018*33=66,594. Total=605,400 +66,594=671,994. 672,000 -671,994=6. Therefore, 672,000≡6 mod2018. Then L≡-6 mod2018⇒L=2012. Which is four digits. Invalid.
+
+M=6: No solution.
+
+M=7:
+
+N=112*7=784. Check 9*784 +7=7,056 +7=7,063. 7,063 ÷1009=7*1009=7,063. Thus ≡0 mod1009. Correct.
+
+A=784*10,000 +7*1,000 +L=7,840,000 +7,000 +L=7,847,000 + L.
+
+B=784*1,000 +L=784,000 +L. Computing 784,000 mod2018:
+
+Let’s see. 2018*388=2018*(300 +80 +8)=2018*300=605,400; 2018*80=161,440; 2018*8=16,144. Total=605,400 +161,440=766,840 +16,144=782,984. 784,000 -782,984=1,016. So mod2018≡1,016. Then L≡-1,016 mod2018⇒ L=2018-1,016=1,002. 1,002 is four digits. Invalid. So M=7 is invalid.
+
+M=8:
+
+N=112*8=896. Check:9*896 +8=8,064 +8=8,072. 8,072 ÷1009=8*1009=8,072. So 8*1009=8,072≡0 mod1009. Correct.
+
+A=896*10,000 +8*1,000 +L=8,960,000 +8,000 +L=8,968,000 +L.
+
+B=896*1,000 +L=896,000 + L. Compute 896,000 mod2018:
+
+Calculate 2018*444=2018*(400 +44)=2018*400=807,200; 2018*44=88,  ? Wait 2018*44: 2,000*44=88,000; 18*44=792; Total=88,000 +792=88,792. So total=807,200 +88,792=895,992. Thus, 896,000 -895,992=8. So mod2018≡8. Therefore, L≡-8 mod2018⇒L=2018-8=2010, but 2010 is four digits. No good.
+
+M=8 is invalid.
+
+M=9:
+
+N=112*9=1,008 mod1009. But N=1,008. However, since modulus is 1009, N=1,008 is equivalent to 1,008 -1009= -1 mod1009. But since we started with M=9, N=112*9=1,008 mod1009, which is 1008. However, N must be a three-digit number. 1008 is four digits. Hence, invalid.
+
+So M=9 is invalid.
+
+Therefore, for k=3 (7-digit numbers), even though for each M=1 to9, we obtained N, but the resultant L is always four digits, which is invalid. Therefore, with k=3, there are no solutions either.
+
+Moving on to k=4 (9-digit number A). Same process.
+
+Case k=4 (9-digit number A):
+
+A is a 9-digit number, so N is the first 4 digits, M is the middle digit (5th), and L is the last 4 digits. Then B is N followed by L, forming an 8-digit number.
+
+Therefore, A= N*10^5 + M*10^4 + L
+
+B= N*10^4 + L
+
+Both must be divisible by2018.
+
+Again, subtract the two congruences:
+
+A - B = N*10^5 + M*10^4 + L - (N*10^4 + L)= N*10^4*(10 -1 ) +M*10^4=10^4*(9N + M). Thus, 10^4*(9N+M)≡0 mod2018.
+
+gcd(10^4,2018)= gcd(10000,2018)=2 (since 2018=2*1009 and 1009 is prime)
+
+Then, as before, dividing both sides:
+
+(10^4 / 2)*(9N + M )≡0 mod1009 ⇒
+
+5000*(9N + M )≡0 mod1009. Since 5000 and1009 are coprime (1009 is prime, and 1009 does not divide 5000). Therefore, 9N + M ≡0 mod1009.
+
+Same equation: 9N + M ≡0 mod1009.
+
+Hence, similar process: N and M must satisfy this congruence. Now, N is a 4-digit number (from 1000 to9999), and M is a digit from0-9.
+
+Express N≡ (-M)/9 mod1009. Since again, inverse of9 modulo1009 is897, so N≡-M*897 mod1009. Therefore:
+
+N≡112*M mod1009. (Same as before, because 897= -112 mod1009. So multiply by -1: -897≡112 mod1009.)
+
+Thus, N≡112*M mod1009. Now, for M=0 to9, compute N and check if it is a valid four-digit number. Additionally, then check if B= N*10^4 +L is divisible by2018, leading to L=( - (N*10^4 )) mod2018. And as L must be four-digit, check whether this L is a valid four-digit number (i.e., between 0000 and9999). Note that in this case, leading zeros may be allowed for L, but as part of a 9-digit number A, L has to be four digits, but can start with zero. But even so, when we write A= N M L, then N is four digits, M is one digit, and L is four digits. For example, N=1000, M=0, L=0000, but since A is a positive integer, N cannot start with zero. Hence, N ranges from 1000 to9999.
+
+So proceeding M from1 to9:
+
+For each M compute N=112*M mod1009.
+
+But since M is from1 to9, and compute N:
+
+For M=1: N=112*1=112 mod1009. N=112, but not four digits. Not valid.
+
+Wait this can't be—if N is supposed to be four digits. Wait, but N=112 is three-digit. This is similar to before. So k=4, but N must be four digits, so 1000 to9999.
+
+Thus, unless 112*M >=1000, which requires M>=9? Wait, but M is between1 and9.
+
+Compute when does 112*M >=1000.
+
+112*9=1008, which is just under1009. So computing N=112*M mod1009 for M=1 to9 remains as follows:
+
+M=1: 112*1=112 mod1009 →N=112. Three digits: invalid.
+
+M=2:224. Three digits: invalid.
+
+M=3:336. Three digits: invalid.
+
+M=4:448. Three digits: invalid.
+
+M=5:560. Three digits.
+
+M=6:672. Three digits.
+
+M=7:784. Three digits.
+
+M=8:896. Three digits.
+
+M=9: 112*9=1008 mod1009 →N=1008. 1008 is four digits. Because 1008 is a four-digit number (but starting with '1'), right? No, sorry, 1008 is a four-digit number: 1, 0, 0, 8. So N=1008, which is a valid four-digit number.
+
+So, only M=9 gives a four-digit N.
+
+Check for M=9:
+
+N=112*9=1008 mod1009. Hence, N=1008.
+
+Therefore, check the congruence:
+
+9N + M=9*1008 +9=9*1008=9,072 +9=9,081. 9,081 div1009: since 1009*9=9,081, so congruence holds. Perfect.
+
+Thus, for M=9, we have N=1008.
+
+Hence, A is a 9-digit number: N=1008, M=9, and L= last four digits.
+
+So, compute B=1008*10,000 + L=10080000 + L.
+
+Given that B must be divisible by2018:
+
+Therefore, 10080000 + L ≡0 mod2018 ⇒ L≡-10080000 mod2018.
+
+Let's compute 10080000 mod2018.
+
+First, compute how much 2018 divides into10,080,000.
+
+Compute first how many times 2018 fits into10,080,000:
+
+2018 *5000=10,090,000
+
+10,080,000 is10000 less than10,090,000.
+
+Thus, 2018 *5000 -10,000=10,090,000 -10,000=10,080,000.
+
+Wait, no. Let's see:
+
+10,080,000=2018*5000 -10,000. So:
+
+10,080,000=2018*5000 -10,000.
+
+But to compute mod2018:
+
+10,080,000 ≡ -10,000 mod2018. So now compute-10,000 mod2018 and then multiply by.
+
+Alternatively, compute10,080,000 /2018.
+
+Alternatively, find10,080,000 mod2018.
+
+Note that: 10,080,000 =10^4*1,008. Therefore, let's compute 1,008 mod2018=1,008. Then 10,000≡x mod2018. Wait.
+
+Let me first compute10,000 mod2018.
+
+10,000 divided by2018:
+
+2018*4=8,072. 10,000 –8,072=1,928.
+
+Similarly,2018*0.95≈1,928, but with actual division:
+
+1,928 is less than2018. Therefore,10,000≡1,928 mod2018.
+
+Thus,10,000≡1928 mod2018. Therefore,10,080,000=10,000*1,008≡1928*1,008 mod2018.
+
+Compute1928*1,008 mod2018.
+
+But note that1928≡-90 mod2018. Because2018 –1928=90. Hence:
+
+1928*1,008 ≡ (-90)*1,008 mod2018.
+
+Calculate-90*1,008= -90,720.
+
+Now compute-90,720 mod2018. Let me compute this.
+
+First, divide90,720 by2018.
+
+2018*45= 2018*40=80,720; wait 2018*45=2018*(40+5)=80,720 +10,090=90,810. But90,720 is less:
+
+2018*44=2018*(40+4)=80,720 +8,072=88,792.
+
+90,720 -88,792=1,928.
+
+Thus,90,720=2018*44 +1,928.
+
+Therefore,-90,720≡-1,928 mod2018. Therefore,-1,928 mod2018=2018-1,928=90. Hence:
+
+-90*1,008≡90 mod2018.
+
+Hence,10,080,000≡90 mod2018.
+
+Therefore,L≡-90 mod2018→L=2018−90=1928. However, L must be a four-digit number. Now, 1928 is a four-digit number? 1,928. Yes. So L=1928.
+
+Therefore, A=1008 (N) concatenated with M=9 and L=1928.
+
+So A=1008 9 1928→which is 100891928. Let's verify if this 9-digit number is divisible by2018, and that removing the middle digit (which is 9) gives B=10081928, which should also be divisible by2018.
+
+Check A=100,891,928.
+
+Divide by2018: Let's compute 2018×50,000=100,900,000. 100,891,928 -100,900,000= -8,072. Hmm, that seems negative, perhaps I made an error.
+
+Wait, actually, 2018 *50,000=100,900,000. A=100,891,928 is less. The difference is 100,900,000 -100,891,928=8,072. But 2018 * (-4)=-8,072, so A=100,900,000 -8,072=2018*(50,000 -4)=2018*49,996. Therefore, yes, A is divisible by2018.
+
+Therefore, A=2018×49,996=100,891,928.
+
+Similarly, B=10081928. Checking divisibility:
+
+Compute10081928 /2018. Let's compute 2018×5000=10,090,000. But10,081,928 is less. 10,090,000 -10,081,928=8,072. So 10,081,928=2018×5000 -8,072=2018×5000 -2018×4=2018×(5000 -4)=2018×4996. Therefore, B is divisible by2018. Similarly, B=2018×4,996=10,081,928.
+
+Hence, both A=100,891,928 and B=10,081,928 are divisible by2018. And A is a 9-digit number with an odd number of digits, and removing the middle digit (9) gives an 8-digit number B. Hence, this satisfies the problem's conditions. Now, we need to verify if this is the minimal such number.
+
+However, we need to check whether smaller solutions exist with smaller numbers of digits. Earlier checked for k=2,3 (5 and7 digits) and there were no valid solutions. With k=4, A becomes a 9-digit number, and we found a solution. So if no solutions exist for k=2,3, then 9 digits would be minimal. But perhaps let me check for possible smaller N, even if N is less than 1000. But for k=4, N is the first four digits of a 9-digit number, hence N cannot be less than1000. Therefore, the solution found N=1008 is the only possible for k=4.
+
+Wait, for M=9: N=1008, a four-digit number, leading to A=100891928. Thus, this should be the minimal such number. But is there perhaps another M (from0-9) that yields a four-digit N for k=4. For M=0: N=0, invalid. For other Ms: all N=112, 224,... up to M=8 gives 896 (a three-digit number). Only M=9 gives N=1008, which is four digits. Thus, this seems like the only solution for k=4.
+
+Therefore, A=100,891,928. But need to confirm if this is indeed the smallest possible. Since we could not find solutions with fewer digits (5,7,...), this is the minimal.
+
+However, to verify, let me check another way. The number A=100891928 has 9 digits, the middle digit is the 5th digit, which is the '9' between 1008 and 1928. Removing this '9' gives B=10081928. As checked earlier, both are divisible by2018.
+
+Is there a smaller 9-digit number fulfilling the criteria? Let's see. For example, maybe with smaller N. However, k=4, N=1008 is the only four-digit number that satisfies N≡112*M mod1009 and M must be9 to provide a valid N. Alternatively, N cycles every 1009, but increasing M won't further reduce N? For example, wait modulus is1009. If we take M=9 +t, we can compute N≡112*(9+t) mod1009. Which for t=1 gives N≡112*10=1,120 mod1009=1,120 –1009=111. Which isn't four-digit. Even so, but then L must also be calculated, which would not likely produce a valid number.
+
+Alternatively, maybe taking larger values for M, but the problem specifies that M is a single digit, 0-9. Therefore, only M=9 gives a four-digit N and thus a valid solution.
+
+Therefore, 100891928 is indeed the smallest such number.
+
+Wait, but another approach: perhaps looking backward. Since B is a multiple of2018, i.e., 2018*K, and A is B with a middle digit inserted. For example, if B is an 8-digit multiple of2018, and inserting a digit M at position5 gives a 9-digit multiple of2018. So perhaps iterate among 8-digit numbers divisible by2018 and check if inserting a digit in the middle to make a 9-digit number also divisible by2018. But maybe computationally intensive. However, the minimal solution found so far is B=10081928 andA=100891928. Let's confirm if there's no 8-digit B less than10081928 that allows inserting a middle digit to become a 9-digit A divisible by2018.
+
+Alternatively, perhaps the found answer is correct. I would need to be convinced no smaller A exists. Given that 10081928 is a multiple of2018=2018*4,996, this gives B=10081928. In this case, what is the minimal A?
+
+If we had a multiple B of2018 which is 8 digits, we need to find whether inserting a digit somewhere in the middle (position5) obtains a 9-digit multiple of2018. So starting from the smallest B=10090 which is (2018*5=10090),but B is a 5-digit number, so in terms ofk=2 it's different.
+
+Wait perhaps there's a different way.
+
+But given that in the k=4 scenario, we derived A=100891928 as the smallest via modular arithmetic considering all possible Ms and it works, and prior digit counts didn't yield solutions, likely that is the minimal.
+
+Therefore, I would conclude A=100,891,928 is the smallest such number. However, the problem asks for the smallest such A. Given the formatting as A with an odd number of digits, and the deduced answer, yes. So the answer is \boxed{100891928}
+
+**Final Answer**
+\boxed{100891928}

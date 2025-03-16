@@ -1,0 +1,213 @@
+Okay, so I've been given this function f(x) = x^5 divided by (5x^4 - 10x^3 + 10x^2 -5x +1), and I need to compute the sum from i=1 to 2009 of f(i/2009). The answer choices are numbers like 1000, 1005, etc., up to 2010. Let's see how I can approach this.
+
+First off, the denominator looks a bit complicated. Let me write it out again: 5x^4 -10x^3 +10x^2 -5x +1. Hmm, that seems like a polynomial of degree 4. Maybe I can factor it or relate it to some binomial expansion? Wait, the coefficients 5, -10, 10, -5, 1 seem familiar. Let me think. If I think about (x - 1)^5, that expansion is x^5 -5x^4 +10x^3 -10x^2 +5x -1. But that's similar to our denominator but not exactly. Let me check:
+
+(x - 1)^5 = x^5 -5x^4 +10x^3 -10x^2 +5x -1. If we take the derivative of (x -1)^5, we get 5(x -1)^4 = 5x^4 -20x^3 +30x^2 -20x +5, which isn't the same as the denominator. Hmm. Alternatively, maybe the denominator is related to (1 - x)^5. Let's expand that.
+
+(1 - x)^5 = 1 -5x +10x^2 -10x^3 +5x^4 -x^5. Hmm. Close, but not the same as the denominator. The denominator is 5x^4 -10x^3 +10x^2 -5x +1, which is similar to reversing the coefficients of (1 -x)^5. Let's see: If I reverse the coefficients of (1 -x)^5, which is -x^5 +5x^4 -10x^3 +10x^2 -5x +1. That's the same as the negative of (x^5 -5x^4 +10x^3 -10x^2 +5x -1) which is -(x -1)^5, right? Wait, actually:
+
+Wait, (1 - x)^5 = 1 -5x +10x^2 -10x^3 +5x^4 -x^5. So if I reverse the order of the coefficients, it's -x^5 +5x^4 -10x^3 +10x^2 -5x +1. But our denominator is 5x^4 -10x^3 +10x^2 -5x +1, which is the same as that reversed polynomial except the first term is missing, i.e., missing the -x^5. So perhaps the denominator is related to the derivative or integral of (1 - x)^5? Let me check the derivatives.
+
+The derivative of (1 -x)^5 is 5(1 -x)^4*(-1) = -5(1 -x)^4. If we take the fourth derivative or something? Hmm, not sure. Maybe instead of derivatives, if I think about the denominator as part of a polynomial that divides into the numerator?
+
+Wait, maybe if I let D(x) = 5x^4 -10x^3 +10x^2 -5x +1, and if I notice that D(x) can be written as x*(5x^3 -10x^2 +10x -5) +1. Not sure. Alternatively, maybe if I factor out a 5x^4 -10x^3 +10x^2 -5x +1.
+
+Alternatively, let's try to analyze the function f(x) = x^5 / (5x^4 -10x^3 +10x^2 -5x +1). Perhaps f(x) can be simplified, or perhaps there is some reciprocal relationship here. For example, let me compute f(1 - x) or f(1/x) and see if it relates to f(x) somehow. This might be useful for summing f(i/2009) from i=1 to 2009 because the arguments would be symmetric around 1/2 if we pair i with 2009 -i +1. Let's check if f(x) + f(1 -x) is some constant. Maybe that would help.
+
+First, compute f(1 - x):
+
+Let me compute denominator D(1 - x) =5(1 -x)^4 -10(1 -x)^3 +10(1 -x)^2 -5(1 -x) +1.
+
+Compute each term:
+
+(1 -x)^4 = 1 -4x +6x^2 -4x^3 +x^4
+Multiply by 5: 5 -20x +30x^2 -20x^3 +5x^4
+
+(1 -x)^3 =1 -3x +3x^2 -x^3
+Multiply by -10: -10 +30x -30x^2 +10x^3
+
+(1 -x)^2 =1 -2x +x^2
+Multiply by 10: 10 -20x +10x^2
+
+-5(1 -x) = -5 +5x
+
+Plus 1 at the end. Now sum all these terms:
+
+Starting with the highest degree term:
+
+5x^4
+
+Then -20x^3 from the first polynomial, +10x^3 from the second, resulting in (-20 +10)x^3 = -10x^3.
+
+Then 30x^2 from first, -30x^2 from second, +10x^2 from third: (30 -30 +10)x^2 =10x^2.
+
+Then -20x from first, +30x from second, -20x from third, +5x from fourth: (-20 +30 -20 +5)x = (-5x).
+
+Then constants:5 from first, -10 from second, +10 from third, -5 from fourth, +1 from last term: (5 -10 +10 -5 +1) =1.
+
+So overall, D(1 -x) =5x^4 -10x^3 +10x^2 -5x +1. Which is exactly the same as D(x). Therefore, D(x) = D(1 -x). So the denominator is unchanged when replacing x by 1 -x.
+
+So f(1 -x) = (1 -x)^5 / D(1 -x) = (1 -x)^5 / D(x). Therefore, f(x) + f(1 -x) = [x^5 + (1 -x)^5] / D(x). Let me compute x^5 + (1 -x)^5.
+
+x^5 + (1 -x)^5. Let's expand (1 -x)^5: 1 -5x +10x^2 -10x^3 +5x^4 -x^5. So adding x^5: x^5 +1 -5x +10x^2 -10x^3 +5x^4 -x^5 =1 -5x +10x^2 -10x^3 +5x^4.
+
+Notably, the numerator of f(x) + f(1 -x) is exactly the denominator D(x). Therefore, f(x) + f(1 -x) = [D(x)] / D(x) =1.
+
+Wow, that's a key insight. So for any x, f(x) + f(1 -x) =1. Therefore, pairing x with 1 -x will sum up to 1. 
+
+So, when I'm summing from i=1 to 2009 of f(i/2009), I can pair each i with (2009 -i +1) because (i/2009) + ( (2009 -i +1)/2009 ) = (i + 2009 -i +1)/2009 = 2010/2009, which is slightly more than 1. Wait, but actually, if we pair i and 2009 -i +1, then x + (1 -x) would correspond to the two terms. Wait, but i ranges from 1 to 2009, so (i/2009) goes from 1/2009 to 2009/2009 =1. So if I take i and 2009 -i +1, the sum of their x values is (i + (2009 -i +1))/2009 =2010/2009 ≈1.0049... Wait, but the problem is they aren't summing to 1. So perhaps my previous logic about pairing i with 2009 -i +1 might not exactly pair with 1 -x, since i/2009 + (2009 -i +1)/2009 = (i +2009 -i +1)/2009=2010/2009. Hmm. So actually, they sum to 2010/2009, which is just over 1. That complicates things a bit. Is there a way to adjust?
+
+Wait, or maybe note that since both x and 1 -x terms add up to 1. But if x isn't 1/2, then the pair x and 1 -x sums to 1, but when we are dealing with fractions like i/2009, unless 2009 is even, which it is not (2009 being 2009=7*7*41, so it's odd). Therefore, there is a central term when i=(2009 +1)/2=1005. So the term when i=1005 is (1005/2009). Let me check: 2*1005=2010, so 1005=2010/2=1005. So x=1005/2009≈0.5. Thus, that's the middle term, and for each other term i<=1004, there is a corresponding term j=2009 -i +1=2010 -i. For example, i=1 paired with j=2010 -1=2009, i=2 paired with 2008, etc. Each such pair (i,j) would sum x + y = (i + j)/2009 = (i + (2010 -i))/2009=2010/2009. But in our previous logic, f(x) + f(1 -x)=1, but here x + y =2010/2009 instead of 1. So maybe f(x) + f(y)=1?
+
+Wait, unless there's a relation. Let me check. Let's suppose x and y such that x + y =2010/2009. Then, perhaps, f(x) + f(y)=some value.
+
+But first, let's take the pair (i, 2009 -i +1), which are (i/2009, (2010 -i)/2009). Let me compute f(i/2009) + f((2010 -i)/2009).
+
+But perhaps f(x) + f( (2009*1 -x*2009 +1)/2009 ). Maybe more complicated.
+
+Alternatively, maybe the key is that when x is of the form k/2009, then 1 -x would be (2009 -k)/2009. So the intended pair would be x= k/2009 and y=1 -x= (2009 -k)/2009. But to get that, you need the term (2009 -k)/2009, which corresponds to term 2009 -k in the sum. However, notice that in the original sum, i runs from 1 to 2009, so (2009 -k) would run from 2008 down to 0 if k runs from1 to2009. But when k=0, which is not included in the sum. Wait, but the point is, unless 1 -x corresponds to another term in the sum.
+
+Wait, x= i/2009, then 1 -x=1 -i/2009=(2009 -i)/2009. So the term (2009 -i)/2009 would correspond to the term when i is replaced by 2009 -i. But 2009 -i, when i starts from1, 2009 -i would be2008,2007,...0. However, the current sum only goes up to i=2009, and (2009 -i) ranges from2008 down to -0 (zero), but the problem is when (2009 -i)=0, i=2009, so (2009 -i)/2009=0. But the original sum starts at i=1. Therefore, the pairs would be: For i=1, pair x=1/2009 with (2009 -1)/2009=2008/2009. For i=2, pair with 2007/2009,..., up to i=1004, pair with 2009 -1004=1005/2009. Wait, but i=1005 gives x=1005/2009, and 2009 -1005=1004, so 1004/2009.
+
+Wait, so actually the pairs are (i, 2009 -i +1):
+
+Wait, perhaps an alternative way. If j =2009 -i +1, then j is from1 to2009 as well, and if I pair i and j such that j=2009 -i +1. Then:
+
+x= i/2009 and y= (2009 -i +1)/2009.
+
+Then x+y=(i +2009 -i +1)/2009=2010/2009. So each pair sums to2010/2009. But the key was that if earlier I noticed f(x) + f(1 -x)=1, now perhaps in this problem f(x) +f(y)=something when x+y=2010/2009?
+
+Hmm, but my previous observation was that f(x) + f(1 -x)=1. So 1 -x relates to another term in the sum. However, 2010/2009 is a bit different.
+
+Alternatively, Maybe there's a way to adjust the function. Since f(x) + f(1 -x)=1, then maybe if I can write it as pairs that sum up to1, then the total sum might be something close to 1004.5, but that's fractional. Or perhaps the number of pairs.
+
+Wait, let's see, if we have 2009 terms. 2009 is an odd number, so there's a middle term when i=(2009 +1)/2=1005. Let's check: For i=1 to2009, 2009 numbers. Then, if we pair terms as f(i/2009) and f((2009 -i)/2009), which would be f(i/2009) and f(1 - i/2009 -1/2009). Wait, that's getting a bit more complicated.
+
+Wait, stepping back. Since f(x) + f(1 -x)=1, which works for any x. Therefore, the pair (x,1 -x) sums up to1. If there are pairs in the summation that satisfy this x and1 -x, then each pair contributes1. But since we're summing over i from1 to2009, let me check for each term i, if (i/2009) and1 - (i/2009)= (2009 -i)/2009 are both in the sum. But the problem is that (2009 -i)/2009 is only in the sum if (2009 -i) is between1 and2009. When i=1, 2009 -1=2008, which is in the sum. When i=2008, likewise. However, when i=2009, (2009 -2009)/2009=0/2009=0, which is not in the sum since the sum starts at i=1. Hence, except for the term i=2009, which pairs with0, which is not in the sum. Thus, if I pair i=1 with i=2008: x=1/2009 and 2008/2009=1 -1/2009 -1/2009? Wait, no. Wait,1 -1/2009=2008/2009. But actually, (2008)/2009 is indeed 1 -1/2009. So yes, that's correct. So if the original f(x) +f(1 -x)=1. But when x=1/2009, 1 -x=2008/2009. So in this case, for i=1, we have x=1/2009, which pairs with i=2008 (2008/2009). Thenf(1/2009)+f(2008/2009)=1. Similarly, i=2 pairs with i=2007, and so on, up to i=1004 and i=1005. Wait, pair i=1004 and i=2009-1004 +1=1006? Wait, perhaps not. Wait, in that pairing.
+
+Wait, in the sum, i runs from1 to2009. Let me see: If we pair i and j=2009 -i +1.
+
+Wait, for example, i=1, j=2009 -1 +1=2009: 1/2009 pairs with2009/2009=1. But f(1)=1^5 / denominator atx=1: denominator is5*1 -10*1 +10*1 -5*1 +1=5 -10+10 -5 +1=1. So denominator=1. Numerator=1^5=1, so f(1)=1/1=1.
+
+Similarly, f(2009/2009)=f(1)=1. Wait, but the pair (1/2009,2009/2009) sums to f(1/2009)+1= maybe there's a different relationship.
+
+Wait, but in that case, the sum would be problematic as one of the terms in the pair is1. Maybe it's better to think again. Alternatively, if I consider when j=2009 -i +1, i ranges from1 to2009, so j ranges from2009 down to1. Thus, pairing each i with j=2009 -i +1. For example, i=1 pairs with j=2009, which would be x=1/2009 and j=2009/2009=1.
+
+If if I pair i=1 and j=2009, then f(1/2009)+f(1). Which is f(1/2009) +1, since f(1)=1 as before.
+
+But according to the previous pairing, if x=1/2009, then1 -x=2008/2009= an earlier term. But since 2008/2009 =i=2008/2009 corresponds to i=2008. Wait, for i=2008, x=2008/2009, which is1 -1/2009.
+
+Wait, this seems like a problem since multiple pairings can occur. Wait, perhaps better to figure out the number of pairs that sum to1.
+
+Every pair of i and j such that x= i/2009 and y=j/2009=1 -x=1 -i/2009. Thus j=2009(1 -i/2009)=2009 -i. Thus, j=2009 -i. But such a term exists only if2009 -i is >=1, which means i <=2008. Therefore, the pairs are (i,2009 -i) where i ranges from1 to2008, which gives j from2008 down to1. These are 2008 pairs. Then each of these pairs contributes f(x) + f(1 -x)=1. Each pair therefore sums to1. So total for the pairs would be2008/2=1004 pairs, each summing to1, so 1004*1=1004. But that leaves the terms i=2009 and which else? Well, when i=2009-j=2009 -i=0, which is not in the sum. So when i=2009, term is f(1). We also haven't considered the middle term when i=1005?
+
+Wait, Wait a second, I feel confused. The idea is: If we can pair x and1 -x for x in the sum, except when x=0.5 (which is 1005/2009 here). Wait, but 1 -x in the denominators could run into different terms.
+
+Given that x= i/2009, and1 -x= (2009 -i)/2009. So the corresponding term is j=2009 -i. However, in the sum, j=2009 -i starts at2008,2007,...,0 as i increases from1 to2009. But the sum terminates at i=2009. So j would not be included when j=0, which corresponds to i=2009. Therefore, (i=1, j=2008), because 1/2009 and2008/2009=1 -1/2009. So f(1/2009)+f(2008/2009)=1. Then for i=2 andj=2007: f(2/2009)+f(2007)/2009=1. Continuing until i=1004 andj=1005/2009? But when i=1004, j=2009 -1004=1005.
+
+Wait, if i=1004, j=1005. Then pair (i=1004/2009, j=1005/2009). Are they distinct? So x=1004/2009 andj=1005/2009= (2009 -1004)/2009=1 -1004/2009. Let me verify 1004 +1005=2009?No, 1004 +1005=2009*Nuh-uh, actually1004 +1005=2009. Wait, yes, 1004 +1005=2009. So x + y=1004/2009 +1005/2009=2009/2009=1. So 1 -x= y. Therefore, in this case,f(1004/2009) +f(1005/2009)=f(x)+f(1 -x)=1. So each pair up to i=1004 and j=1005 sum up to1.
+
+Then, after pairing i=1 with2008,...,i=1004 with1005, we have pairs. How many pairs: From i=1 toi=1004, paired with j=2008 downto1005: total number of pairs1004? Because2008 -1+1=2008 terms if we count single increments, but since pairing i=1 with2008, i=2with2007... etc., up to i=1004 with1005. That makes1004 pairs. Each contributes1. Then the middle term is i=1005, with x=1005/2009. But1005/2009= approximates0.5.
+
+Then also, there's the term i=2009, which is x=1. But we had excluded that term in the previous pairing because j=0 wasn't included.
+
+But wait, according to the sum, we do have i=2009, x=1. Which gives f(1)=1. So total sum would be number of pairs *1 +f(1005/2009)+f(1).
+
+But the middle term i=1005 is unpaired? Then f(1005/2009): But1005/2009≈0.5. But since the denominator D(x)= D(1 -x)=D(x), and if x=1005/2009, then1 -x=(2009 -1005)/2009=1004/2009. Wait, but i=1005 paired with1004. Ah, no, we already accounted for those. Wait no: The earlier pairing paired i from1 to1004 withj=2008 downto1005. Wait so in that scope.
+
+Wait, i runs from1 to1004, and each i is paired with 2009 -i, which for i=1, j=2008, etc.
+
+Wait, perhaps the proper count is that by pairing i from1 to1004 with j from2008 down to1005, these 1004 pairs sum to1004*1=1004, and then we have two remaining terms: i=1005, which is unpaired, and i=2009, which was left out. Wait, that's because in j=2009 -i, when i=1005, j=2009 -1005=1004, which was paired with i=1005-1=1004. So perhaps confusion arises here. Wait, perhaps the terms from i=1 to2008 can be paired as (i, 2009 -i), which each pairs to x= i/2009 andx= (2009 -i)/2009 =1 -i/2009. Then, each pair sums to1, making2008/2=1004 pairs times1=1004. Plus the terms i=2009 (which is x=1) and i=1005 (which is x=1005/2009).
+
+Wait, isn't j=2009 -i, when i runs to2008, gives 2009 -1=2008 up to2009 -2008=1.
+
+Thus the sum over i=1 to2008 can be grouped into pairs (i, 2009 -i), each pair contributing1. So the number of such pairs is2008 terms /2=1004 pairs, so total f(i/2009)+ f((2009 -i)/2009) =1 each, accounting for1004*1=1004. Then the remaining terms are i=2009 andi=1005.
+
+Wait no, wait, when i goes from1 to2008, pairing (i,2009 -i), 2008 terms.
+
+If we go up to i=2008? But we were supposed to sum from i=1 to2009. Therefore, after summing i=1-2008 paired as above, leaving out i=2009 and i=? Wait, no, 2008 terms = 2008 pairs of i and j=2009 -i. Wait, 2008 is even. Wait, 2008 terms would result in1004 pairs. But what of the termi=2009?
+
+Ah! Right, the original sum is from1 to2009. When pairing i and j=2009 -i, which givesj=2009-i=1到2008as i=1到2008. Therefore for these 2008 pairs, we cover i from1到2008 and j from2008到1. Then the terms not covered are i=2009 and j=?
+
+Wait, wait when i=1 to2008: that corresponds to2008 terms. but the total required terms are i=1 to2009:2009 terms. So missing i=2009. So the initial pairing only handled2008 terms. So sum from1-2008 is1004, then we need to add f(2009/2009)=f(1)=1.
+
+But how about the middle term?
+
+Wait, no, when i=1 to2008, which is2008 terms. So the remaining terms are i=2009 and the the central term when i=1009?
+
+ Wait, 2009 is an odd number. Let's see: position 1005 is the middle term. But since when we paired i=1 to2008, then indeed after pairing them, we are left with i=2009 and i=1005.
+
+Wait, no: i=1到2008 corresponds to 2008 terms. The full sum is i=1到2009: 2009 terms. So after pairing i=1-2008 in pairs sum to1004, then term i=2009 is left. But also, according to the pairing logic, each pair consumes two terms. Therefore 2008 terms leave 2008/2=1004 pairs. Therefore, when we sum from1 to2009, if we take the first 2008 terms and pair them leading to1004, and the remaining term ati=2009 isf(1)=1. So total sum would be1004 +1=1005. But wait, the answer options have1005 as choice B.
+
+However, let's test this:
+
+Wait, for example, suppose n=3. Let's say sum from1 to3. Then, if we have pairsi=1 andi=2, thentermi=3 isleft. Forf(x)=x^5 / denominator.
+
+But maybe n=3 is not feasible here. Alternatively, take smaller n, to see if pattern holds. But given the answer is likely among the options, which include1005, let me check the previous train of thought.
+
+If I pair i=1 with2008, i=2 with2007,...,i=1004with1005, each pair sums to1, since f(x) +f(1 -x)=1. Wait, but when i=1004, the paired term is1005. These two if paired:
+
+x=1004/2009, y=1005/2009. Then1 -x=(2009 -1004)/2009=1005/2009, which isy. So f(x) +f(y)=1. That means if I pair1004 with1005, I need to include both in the pairs. So if paired this way, i=1004 with1005, then i=1005 hasn't been paired yet. Wait, if we pair i and2009 -i +1? Maybe.
+
+Alternatively, perhaps consider that there are total2009 terms. For the first2008 terms, pairing as i and (2009 -i) which gives i=1-2008, j=2008-1,leading to1004 pairs sum to1, then adding termi=2009which isf(1)=1, Hence total sum1004+1=1005.Therefore, answer is option B.
+
+But the middle term isi=1005, which is f(1005/2009);but since we also consider termi=2009 (which is x=1).
+
+Actually, this is where confusion might enter. So another approach is to pair i and2009 -i +1. Like pairing first and last term:
+
+i=1, and2009 -1 +1=2009, givex=1/2009 andx=2009/2009=1. sum f(1/2009) +f(1)
+
+But f(1)=1, so sum is f(1/2009) +1.
+
+Wait, which would equal 1 +sth. However in our earlier logic f(x) + f(1 -x)=1, butx =1/2009。 f(1 -1/2009)=f(2008/2009).So pairing withtermi=2008 which isx=2008/2009, gives sum1.
+
+Therefore, maybe a need to distinguish different pairing ways.
+
+Alternatively, realize that by the substitution y=1 -x, we can mirror the sum. That is:
+
+Let S = sum_{i=1}^{2009} f(i/2009)
+
+But also, S =sum_{i=1}^{2009} f(1 -i/2009), because replacing i with2009 -i doesn't change the summation indices since i runs over all the same terms. Since 1 -i/2009=(2009 -i)/2009, which ranges from2008/2009 dowsn to0. But since i runs from1 to2009, (2009 -i) runs from2008 downto0. Therefore, sum S' =sum_{i=0}^{2008} f( (2009 -i)/2009 )。Which is same as sum_{k=1}^{2009} f( (2009 -k)/2009 ).
+
+When k=1, termisf(2008/2009), andk=2009, termisf(0/2009)=f(0). But since the original sum is from1 to2009, excluding whenk=2009 term0. So S’ is unequal to S. But possible adding together S and S’ would capture something.
+
+Wait, but if we calculate S +S’= sum_{i=1}^{2009} [f(i/2009) +f((2009 -i)/2009)]
+
+That is sum_{i=1}^{2009}[f(i/2009)+f(1 -i/2009 +1/2009)] Not exactly, because ((2009 -i)/2009)=1 -i/2009. So according to this...
+
+Wait, (2009 -i)/2009=1 -i/2009, but only if we ignore the fraction. Wait, 2009 -i /2009. Which is correct:
+
+ (2009 -i)/2009=1 -i/2009. 
+
+Yes.
+
+So. Here S’ becomes sum_{i=1}^{2009}f(1 -i/2009).
+
+Sincefor x= i /2009, S= sum_{x} f(x), andS’=sum_{x} f(1 -x).  Thus, S +S’= sum_{x}[f(x) +f(1 -x)] = sum_{x}1 =2009 *1=2009.
+
+But also S’ equals sum_{i=1}^{2009}f((2009 -i)/2009)= sum_{j=0}^{2008}f(j/2009)= sum_{j=1}^{2009} f( (j-1)/2009). Shifting index: substitute j =k +1,then the sum runs from k=0 to2008: f(k/2009). But in our original sum S=sum_{k=1}^{2009}f(k /2009).Therefore, S’= sum_{k=0}^{2008}f(k /2009).
+
+Hence,S’=sum_{k=0}^{2008}f(k/2009). Thus, S =sum_{k=1}^{2009}f(k /2009), so S’= S -f(2009/2009) +f(0). Since 2009/2009 is1, which is in S, but 0 is in S’.
+
+ThereforeS’= S -f(1)+f(0).
+
+But since S +S’=2009, that gives:
+
+ S +(S -f(1)+f(0))=2009
+
+ 2S -f(1) +f(0)=2009
+
+ Now, compute f(1) and f(0).
+
+F(1)=1^5 / denominator(1)=1 / [5 -10 +10 -5 +1] as before: denominator=1. so, f(1)=1.
+
+F(0)=0^5 / [5*0 -10*0 +10*0 -5*0 +1]=0 /1=0.
+
+Thus the equation becomes2S -1 +0=2009 =>2S=2010=>S=1005.
+
+Therefore, the answer should be1005, optionB.
+
+This approach uses the symmetry of the function f(x) +f(1 −x)=1, and by expressing the sum S and then mirroring it to form S', add them up to find the total. Using that S + (S − f(1) +f(0))=2009, gives the desired result S=1005.
+
+**Final Answer**
+\boxed{B}
