@@ -15,8 +15,18 @@ Plan:
 
 ### Important ideas / methods to try:
 
+- Get USAMO and other olympiad questions
+
 - KTO
 - DPO w/ Pivotal tokens
+- Time-based prompting (insert "you have X time left" as time goes on)
+- More prompting methods:
+
+  - "inquisitive, curious, scientific, analytical"
+  - "genius, expert, brilliant"
+  - "efficient, effective"
+  - "thorough, methodical"
+
 - Figure out how to create state to do gflownets
   - define a quantum "step" of a question using datasets of solutions? Use these as the "step" vectors??
     - To validate, find similar hidden state "directions" or activations over several model solutions and see
@@ -32,7 +42,9 @@ Plan:
 
 ### Training:
 
-grpo is generalized pivotal token search.
+grpo and pto can be complimentary.
+the completion length of grpo is one of its weaknesses.
+the scalability / data efficiency of pts is one of its weaknesses.
 
 Base Models: - Deepseek distilled - Distill your own (?)
 Algos: - KTO - Good / Bad formatting - DPO - Pivotal tokens strategy of Phi 4 - SFT - Numina TIR dataset
